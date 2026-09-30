@@ -1,0 +1,3 @@
+*.thy text eol=lf
+*.md text eol=lf
+*.json text eol=lf
