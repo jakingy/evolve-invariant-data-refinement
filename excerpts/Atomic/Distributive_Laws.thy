@@ -1,7 +1,7 @@
 (* Extracts from isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy. *)
 (* These are source excerpts, not a standalone buildable theory. *)
 
-(* Original lines 579-619. *)
+(* Original lines 582-622. *)
 lemma atom_iter_sync_infinite_iter_non_test:
   assumes decomposes: "\<And>c. decomposes c" 
   assumes non_test: "nil \<otimes> c = pre c ; \<bottom>"
@@ -45,7 +45,7 @@ proof (rule antisym)
 qed
 
 
-(* Original lines 621-635. *)
+(* Original lines 624-638. *)
 text \<open>This lemma follows from the previous two.\<close>
 lemma atom_iter_sync_iter_non_test:
   assumes decomposes: "\<And>c. decomposes c" 
@@ -63,7 +63,7 @@ proof -
 qed
 
 
-(* Original lines 637-657. *)
+(* Original lines 640-660. *)
 text \<open>The non-test side condition above can be discharged for an arbitrary command
 by first separating its immediate behaviour.\<close>
 lemma sync_neut_is_assert_test:
@@ -87,7 +87,7 @@ proof -
 qed
 
 
-(* Original lines 659-674. *)
+(* Original lines 662-677. *)
 text \<open>The immediate behaviour of a command is sequentially idempotent.\<close>
 lemma sync_neut_idem: "(c \<otimes> nil) ; (c \<otimes> nil) = c \<otimes> nil"
 proof -
@@ -106,7 +106,7 @@ proof -
 qed
 
 
-(* Original lines 676-701. *)
+(* Original lines 679-704. *)
 lemma sync_neut_iter:
   "(c \<otimes> nil)\<^sup>\<omega> = nil \<squnion> (c \<otimes> nil) ; \<top>"
 proof (rule antisym)
@@ -135,7 +135,7 @@ proof (rule antisym)
 qed
 
 
-(* Original lines 703-725. *)
+(* Original lines 706-728. *)
 text \<open>The possibly infinite arbitrary iteration of a command synced with nil
 is an assert.\<close>
 lemma sync_neut_iter_is_assert:
@@ -161,13 +161,13 @@ proof -
 qed
 
 
-(* Original lines 727-729. *)
+(* Original lines 730-732. *)
 text \<open>magic sync nil is magic.\<close>
 lemma magic_sync_neut: "\<bottom> = \<bottom> \<otimes> nil"
   using bot_compat neut_sync_atom sync_commute by auto
 
 
-(* Original lines 731-743. *)
+(* Original lines 734-746. *)
 text \<open>An atomic iter sync an assert is the assert.\<close>
 lemma atom_iter_sync_assert:
   assumes a_atom: "a \<in> Atom"
@@ -183,7 +183,7 @@ proof -
 qed
 
 
-(* Original lines 745-755. *)
+(* Original lines 748-758. *)
 text \<open>Syncing with an atomic iter does not effect immediate behaviour.\<close>
 lemma atom_iter_sync_neut_right:
   assumes a_atom: "a \<in> Atom"
@@ -197,14 +197,14 @@ proof -
 qed
 
 
-(* Original lines 757-760. *)
+(* Original lines 760-763. *)
 text \<open>A command can be rewritten as arbitrary choice between immediately terminating
 behaviour and behaviour with at least one step. Immediately aborting behaviour is on both sides.\<close>
 lemma split_immed_behaviour: "c = (c \<otimes> nil) \<squnion> (c \<otimes> \<iota> ; \<gamma>)"
   by (metis op1.iter_unfold op2.right_neutral sync_neut sync_sup)
 
 
-(* Original lines 762-866. *)
+(* Original lines 765-869. *)
 text \<open>An atomic iter distributes into iter.\<close>
 lemma atom_iter_sync_iter:
   assumes decomposes: "\<And>c. decomposes c"
@@ -312,7 +312,7 @@ proof -
 qed
 
 
-(* Original lines 868-882. *)
+(* Original lines 871-885. *)
 text \<open>An atomic iter distributes into infinite iter.\<close>
 lemma atom_iter_sync_infinite_iter:
   assumes decomposes: "\<And>c. decomposes c"

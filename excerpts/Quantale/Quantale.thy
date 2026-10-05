@@ -1,7 +1,7 @@
 (* Extracts from isabelle/new_rg_algebra/Quantale/Quantale.thy. *)
 (* These are source excerpts, not a standalone buildable theory. *)
 
-(* Original lines 210-221. *)
+(* Original lines 213-224. *)
 text \<open>If a command is idempotent with respect to \<open>(\<odot>)\<close>, then can compare operands separately.\<close>
 lemma op_idem_mono:
   assumes idem: "c = c \<odot> c"

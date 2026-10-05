@@ -192,7 +192,7 @@ local
         ("\<And>\<sigma>. \<lbrakk>Deref " ^ base ^ "_lve\<rbrakk>\<sigma> = " ^
          base ^ " \<sigma>");
       val eval_thm = Goal.prove lthy3 [] [] eval_prop (fn {context, ...} =>
-        simp_tac (context addsimps [lve_def, lval_def, value_def]) 1);
+        simp_tac (context |> Simplifier.add_simps [lve_def, lval_def, value_def]) 1);
       val (_, lthy4) = Local_Theory.note
         ((Binding.name ("eval_Deref_" ^ base),
           [Attrib.internal \<^here>

@@ -4,51 +4,168 @@
 (* Original lines 11-13. *)
 text \<open>Refinement in the context of an invariant.\<close>
 definition data_refine :: "'a \<Rightarrow> 'state set \<Rightarrow> 'a \<Rightarrow> bool" ("_ \<ge>\<^sub>_ _" [35,1000,35] 36) where
-  "data_refine c p d \<equiv> inv p \<iinter> c \<ge> inv p \<iinter> d"
+  "data_refine c I d \<equiv> inv I \<iinter> c \<ge> inv I \<iinter> d"
+
+
+(* Original lines 15-16. *)
+lemma data_refine_refl: "c \<ge>\<^sub>I c" 
+  by (simp add: data_refine_def) 
+
+
+(* Original lines 18-22. *)
+lemma data_refine_trans:
+  assumes "c1 \<ge>\<^sub>I c2"
+  assumes "c2 \<ge>\<^sub>I c3"
+  shows "c1 \<ge>\<^sub>I c3" 
+  using assms(1,2) data_refine_def by fastforce 
+
+
+(* Original lines 26-29. *)
+lemma refsto_implies_data_refine:
+  assumes "c1 \<ge> c2"
+  shows "c1 \<ge>\<^sub>I c2" 
+  using assms data_refine_def seq_conj.sync_mono_right by blast 
 
 
 (* Original lines 31-38. *)
 text \<open>Invariant-aware extraction of an atomic postcondition\<close>
 lemma data_refine_atomic_spec_extract_post_assert_under_invariant:
-  assumes q_establishes_a_under_I: "(I \<inter> p) \<triangleleft> q \<triangleright> I \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a (I \<triangleleft> r \<triangleright> I)"
-  shows "rely r \<iinter> \<langle>p,q\<rangle> \<ge>\<^sub>I  rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  assumes q_establishes_q'_under_I: "(I \<inter> p) \<triangleleft> q \<triangleright> I \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' (I \<triangleleft> r \<triangleright> I)"
+  shows "rely r \<iinter> \<langle>p,q\<rangle> \<ge>\<^sub>I  rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
   unfolding data_refine_def
   using atomic_spec_extract_post_assert_under_invariant
-    [OF q_establishes_a_under_I stable_a] by (simp add: seq_conj.sync_assoc)
+    [OF q_establishes_q'_under_I stable_q'] by (simp add: seq_conj.sync_assoc)
 
 
 (* Original lines 40-46. *)
 lemma data_refine_framed_atomic_spec_extract_post_assert_under_invariant:
-  assumes q_establishes_a_under_I: "(I \<inter> p) \<triangleleft> q \<triangleright> I \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a (I \<triangleleft> r \<triangleright> I)"
-  shows "rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle> \<ge>\<^sub>I rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  assumes q_establishes_q'_under_I: "(I \<inter> p) \<triangleleft> q \<triangleright> I \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' (I \<triangleleft> r \<triangleright> I)"
+  shows "rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle> \<ge>\<^sub>I rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
   unfolding data_refine_def
   using framed_atomic_spec_extract_post_assert_under_invariant
-    [OF q_establishes_a_under_I stable_a] by (simp add: seq_conj.sync_assoc)
+    [OF q_establishes_q'_under_I stable_q'] by (simp add: seq_conj.sync_assoc)
+
+
+(* Original lines 48-62. *)
+text \<open>Monotonicity properties for data refinement.\<close>
+lemma data_refine_Sup:
+  assumes "\<forall>d \<in> D. \<exists>c \<in> C. c \<ge>\<^sub>I d"
+  shows "\<Squnion>C \<ge>\<^sub>I \<Squnion>D" 
+proof -
+  have asm: "\<forall>d \<in> D. \<exists>c \<in> C. inv I \<iinter> c \<ge> inv I \<iinter> d" 
+    using assms data_refine_def by blast 
+  have "inv I \<iinter> \<Squnion>C = \<lbrace>I\<rbrace> ; (\<Squnion>c \<in> C. inv I \<iinter> c)" 
+    by (simp add: inv_distrib_Sup) 
+  also have "\<dots> \<ge> \<lbrace>I\<rbrace> ; (\<Squnion>d \<in> D. inv I \<iinter> d)" (is "_ \<ge> ?rhs") 
+    by (meson SUP_mono asm seq.seq_mono_right)
+  also have "?rhs = inv I \<iinter> (\<Squnion>d \<in> D. d)" 
+    by (simp add: inv_distrib_Sup) 
+  finally show ?thesis by (simp add: data_refine_def) 
+qed
+
+
+(* Original lines 64-73. *)
+lemma data_refine_SUP:
+  assumes "\<forall>j \<in> J. c j \<ge>\<^sub>I d j"
+  shows "(\<Squnion>j \<in> J. c j) \<ge>\<^sub>I (\<Squnion>j \<in> J. d j)"
+proof -
+  have "\<forall>d \<in> {d j |j. j \<in> J}. \<exists>c \<in> {c j|j. j \<in> J}. c \<ge>\<^sub>I d" 
+    using assms by blast 
+  then have "\<Squnion>{c j|j. j \<in> J} \<ge>\<^sub>I \<Squnion>{d j |j. j \<in> J}" 
+    using data_refine_Sup by presburger  
+  then show ?thesis by (simp add: setcompr_eq_image)
+qed
+
+
+(* Original lines 75-79. *)
+lemma data_refine_sup:
+  assumes c1: "c1 \<ge>\<^sub>I d1"
+  assumes c2: "c2 \<ge>\<^sub>I d2"
+  shows "c1 \<squnion> c2 \<ge>\<^sub>I d1 \<squnion> d2" 
+  using c1 c2 data_refine_def seq.sup_quantale.op_mono seq_conj.sync_sup by fastforce  
+
+
+(* Original lines 81-91. *)
+lemma data_refine_seq:
+  assumes c1: "c1 \<ge>\<^sub>I d1"
+  assumes c2: "c2 \<ge>\<^sub>I d2"
+  shows "c1 ; c2 \<ge>\<^sub>I d1 ; d2" 
+proof -
+  have "inv I \<iinter> c1 ; c2 = (inv I \<iinter> c1) ; (inv I \<iinter> c2)" 
+    by (simp add: inv_distrib_seq) 
+  also have "\<dots> \<ge> (inv I \<iinter> d1) ; (inv I \<iinter> d2)" 
+    using c1 c2 data_refine_def seq.seq_mono by force
+  finally show ?thesis by (simp add: data_refine_def inv_distrib_seq)
+qed
+
+
+(* Original lines 93-103. *)
+lemma data_refine_conj:
+  assumes c1: "c1 \<ge>\<^sub>I d1"
+  assumes c2: "c2 \<ge>\<^sub>I d2"
+  shows "c1 \<iinter> c2 \<ge>\<^sub>I d1 \<iinter> d2"
+proof -
+  have "inv I \<iinter> (c1 \<iinter> c2) = (inv I \<iinter> c1) \<iinter> (inv I \<iinter> c2)" 
+    using conj.conj_conj by presburger
+  also have "\<dots> \<ge> (inv I \<iinter> d1) \<iinter> (inv I \<iinter> d2)" (is "_ \<ge> ?rhs") 
+    using c1 c2 data_refine_def seq_conj.sync_mono by blast 
+  finally show ?thesis using data_refine_def conj.conj_conj by force 
+qed
 
 
 (* Original lines 105-108. *)
 lemma data_refine_add_conj:
-  assumes "c1 \<ge>\<^sub>p c2"
-  shows "x \<iinter> c1 \<ge>\<^sub>p x \<iinter> c2"
+  assumes "c1 \<ge>\<^sub>I c2"
+  shows "x \<iinter> c1 \<ge>\<^sub>I x \<iinter> c2"
   by (simp add: assms data_refine_conj data_refine_refl)
+
+
+(* Original lines 110-120. *)
+lemma data_refine_par:
+  assumes c1: "c1 \<ge>\<^sub>I d1"
+  assumes c2: "c2 \<ge>\<^sub>I d2"
+  shows "c1 \<parallel> c2 \<ge>\<^sub>I d1 \<parallel> d2"
+proof - 
+  have "inv I \<iinter> (c1 \<parallel> c2) = (inv I \<iinter> c1) \<parallel> (inv I \<iinter> c2)" 
+    by (simp add: inv_distrib_par) 
+  also have "\<dots> \<ge> (inv I \<iinter> d1) \<parallel> (inv I \<iinter> d2)" 
+    using c1 c2 data_refine_def seq_par.sync_mono by force  
+  finally show ?thesis using data_refine_def inv_distrib_par by force 
+qed
+
+
+(* Original lines 122-126. *)
+lemma data_refine_power:
+  assumes c: "c \<ge>\<^sub>I d"
+  shows "c^i \<ge>\<^sub>I d^i"
+  unfolding data_refine_def 
+  using c data_refine_def inv_distrib_power seq.power_mono seq_par.seq_mono by auto
+
+
+(* Original lines 128-132. *)
+lemma data_refine_fiter:
+  assumes c: "c \<ge>\<^sub>I d"
+  shows "c* \<ge>\<^sub>I d*" 
+  unfolding data_refine_def 
+  using c data_refine_def inv_distrib_fiter seq.finite_iter_mono by force
 
 
 (* Original lines 134-151. *)
 lemma data_refine_iter:
-  assumes c: "c \<ge>\<^sub>p d"
-  shows "c\<^sup>\<omega> \<ge>\<^sub>p d\<^sup>\<omega>" 
+  assumes c: "c \<ge>\<^sub>I d"
+  shows "c\<^sup>\<omega> \<ge>\<^sub>I d\<^sup>\<omega>" 
 proof -
-  have ex_c: "inv p \<iinter> c \<ge> inv p \<iinter> d" 
+  have ex_c: "inv I \<iinter> c \<ge> inv I \<iinter> d" 
     using c
     by (simp only: data_refine_def)
     
-  have inside: "(inv p \<iinter> c)\<^sup>\<omega> \<ge> (inv p \<iinter> d)\<^sup>\<omega>"
+  have inside: "(inv I \<iinter> c)\<^sup>\<omega> \<ge> (inv I \<iinter> d)\<^sup>\<omega>"
     using ex_c
     by (simp only: seq.iter_mono)
 
-  have outside: "inv p \<iinter> c\<^sup>\<omega> \<ge> inv p \<iinter> d\<^sup>\<omega>"
+  have outside: "inv I \<iinter> c\<^sup>\<omega> \<ge> inv I \<iinter> d\<^sup>\<omega>"
     using inside
     by (simp only: inv_distrib_iter)
 
@@ -58,8 +175,8 @@ qed
 
 (* Original lines 153-158. *)
 lemma data_refine_infiter:
-  assumes c: "c \<ge>\<^sub>p d"
-  shows "c\<^sup>\<infinity> \<ge>\<^sub>p d\<^sup>\<infinity>" 
+  assumes c: "c \<ge>\<^sub>I d"
+  shows "c\<^sup>\<infinity> \<ge>\<^sub>I d\<^sup>\<infinity>" 
   unfolding data_refine_def  
   using assms data_refine_def inv_distrib_infiter seq.infinite_iter_mono
   by force
@@ -68,12 +185,12 @@ lemma data_refine_infiter:
 (* Original lines 160-170. *)
 text \<open>Data refinement of primitive commands.\<close>
 lemma data_refine_test:
-  assumes "p1 \<supseteq> p \<inter> p2"
-  shows "\<tau> p1 \<ge>\<^sub>p \<tau> p2" 
+  assumes "p1 \<supseteq> I \<inter> p2"
+  shows "\<tau> p1 \<ge>\<^sub>I \<tau> p2" 
 proof -
-  have "inv p \<iinter> \<tau> p1 = \<lbrace>p\<rbrace> ; \<tau> p1" 
+  have "inv I \<iinter> \<tau> p1 = \<lbrace>I\<rbrace> ; \<tau> p1" 
     by (simp add: inv_test) 
-  also have "\<dots> \<ge> \<lbrace>p\<rbrace> ; \<tau>(p \<inter> p2)" (is "_ \<ge> ?rhs") 
+  also have "\<dots> \<ge> \<lbrace>I\<rbrace> ; \<tau>(I \<inter> p2)" (is "_ \<ge> ?rhs") 
     using assms seq.seq_mono_right seq.test_mono by blast 
   finally show ?thesis by (simp add: inv_test_alt data_refine_def inv_test)
 qed
@@ -81,14 +198,14 @@ qed
 
 (* Original lines 172-183. *)
 lemma data_refine_assert:
-  assumes "p \<inter> p1 \<subseteq> p2"
-  shows "\<lbrace>p1\<rbrace> \<ge>\<^sub>p \<lbrace>p2\<rbrace>" 
+  assumes "I \<inter> p1 \<subseteq> p2"
+  shows "\<lbrace>p1\<rbrace> \<ge>\<^sub>I \<lbrace>p2\<rbrace>" 
 proof -
-  have "inv p \<iinter> \<lbrace>p1\<rbrace> = \<lbrace>p \<inter> p1\<rbrace>" 
+  have "inv I \<iinter> \<lbrace>p1\<rbrace> = \<lbrace>I \<inter> p1\<rbrace>" 
     using inv_assert by blast 
-  also have "\<dots> \<ge> \<lbrace>p \<inter> p2\<rbrace>" (is "_ \<ge> ?rhs") 
+  also have "\<dots> \<ge> \<lbrace>I \<inter> p2\<rbrace>" (is "_ \<ge> ?rhs") 
     using assms seq.assert_to_assert by auto
-  also have "?rhs = inv p \<iinter> \<lbrace>p2\<rbrace>" 
+  also have "?rhs = inv I \<iinter> \<lbrace>p2\<rbrace>" 
     using inv_assert by presburger
   finally show ?thesis by (simp add: data_refine_def) 
 qed
@@ -96,12 +213,12 @@ qed
 
 (* Original lines 185-194. *)
 lemma data_refine_pgm:
-  assumes "r1 \<supseteq> p \<triangleleft> r2 \<triangleright> p"
-  shows "\<pi> r1 \<ge>\<^sub>p \<pi> r2" 
+  assumes "r1 \<supseteq> I \<triangleleft> r2 \<triangleright> I"
+  shows "\<pi> r1 \<ge>\<^sub>I \<pi> r2" 
 proof -
-  have "inv p \<iinter> \<pi> r1 \<ge> inv p \<iinter> \<pi>(p \<triangleleft> r2 \<triangleright> p)" (is "_ >= ?rhs")
+  have "inv I \<iinter> \<pi> r1 \<ge> inv I \<iinter> \<pi>(I \<triangleleft> r2 \<triangleright> I)" (is "_ >= ?rhs")
     using assms pgm_mono seq_conj.sync_mono_right by auto 
-  also have "?rhs = inv p \<iinter> \<pi> r2" 
+  also have "?rhs = inv I \<iinter> \<pi> r2" 
     using inv_pgm_alt by simp
   finally show ?thesis by (simp add: data_refine_def) 
 qed
@@ -109,10 +226,10 @@ qed
 
 (* Original lines 196-204. *)
 lemma data_refine_env: (* Changed with new invariant *)
-  assumes "r1 \<supseteq> p \<triangleleft> r2"
-  shows "\<epsilon> r1 \<ge>\<^sub>p \<epsilon> r2" 
+  assumes "r1 \<supseteq> I \<triangleleft> r2"
+  shows "\<epsilon> r1 \<ge>\<^sub>I \<epsilon> r2" 
 proof -
-  have "inv p \<iinter> \<epsilon> r1 \<ge> inv p \<iinter> \<epsilon> (p \<triangleleft> r2)" (is "_ >= ?rhs")
+  have "inv I \<iinter> \<epsilon> r1 \<ge> inv I \<iinter> \<epsilon> (I \<triangleleft> r2)" (is "_ >= ?rhs")
     using assms env_mono seq_conj.sync_mono_right by auto
   then show ?thesis
     using data_refine_def inv_env_alt by auto
@@ -126,13 +243,13 @@ lemma restrict_range_domain: "p \<triangleleft> (UNIV \<triangleright> p) \<inte
 
 (* Original lines 209-239. *)
 lemma data_refine_env_assump:
-  assumes "p \<triangleleft> r1 \<triangleright> p \<subseteq> r2"
-  shows "env_assump r1 \<ge>\<^sub>p env_assump r2" 
+  assumes "I \<triangleleft> r1 \<triangleright> I \<subseteq> r2"
+  shows "env_assump r1 \<ge>\<^sub>I env_assump r2" 
 proof -
-  let ?r = "p \<triangleleft> (UNIV \<triangleright> p)"
+  let ?r = "I \<triangleleft> (UNIV \<triangleright> I)"
   have refine_with_rely: "rely ?r \<iinter> env_assump r1 \<ge> env_assump r2"
   proof-
-    have lhs: "rely ?r \<iinter> env_assump r1 = env_assump (p \<triangleleft> r1 \<triangleright> p)"
+    have lhs: "rely ?r \<iinter> env_assump r1 = env_assump (I \<triangleleft> r1 \<triangleright> I)"
       using rely_conj_env_assump 
       by (simp only: restrict_range_domain)
 
@@ -140,16 +257,16 @@ proof -
       using assms env_assump_weaken lhs by auto
   qed
 
-  have refine_with_inv_rely: "inv p \<iinter> rely ?r \<iinter> env_assump r1 \<ge> inv p \<iinter> env_assump r2"
+  have refine_with_inv_rely: "inv I \<iinter> rely ?r \<iinter> env_assump r1 \<ge> inv I \<iinter> env_assump r2"
   proof-
-    have "inv p \<iinter> rely ?r \<iinter> env_assump r1 = inv p \<iinter> (rely ?r \<iinter> env_assump r1)"
+    have "inv I \<iinter> rely ?r \<iinter> env_assump r1 = inv I \<iinter> (rely ?r \<iinter> env_assump r1)"
       by (simp only: conj.assoc)
-    also have "\<dots> \<ge> inv p \<iinter> env_assump r2"
+    also have "\<dots> \<ge> inv I \<iinter> env_assump r2"
       by (simp only: refine_with_rely seq_conj.sync_mono_right)
     finally show ?thesis .
   qed
 
-  have expanded_data_refine: "inv p \<iinter> env_assump r1 \<ge> inv p \<iinter> env_assump r2"
+  have expanded_data_refine: "inv I \<iinter> env_assump r1 \<ge> inv I \<iinter> env_assump r2"
     using refine_with_inv_rely inv_extract_rely2 by auto
 
   show ?thesis using expanded_data_refine data_refine_def by auto
@@ -161,14 +278,14 @@ qed
 (* Original lines 240-262. *)
 text \<open>Data refinement of relies and guarantees.\<close>
 lemma data_refine_guar:
-  assumes "g1 \<supseteq> p \<triangleleft> g2 \<triangleright> p"
-  assumes "r1 \<supseteq> p \<triangleleft> r2"
-  shows "guar(g1,r1) \<ge>\<^sub>p guar(g2,r2)"
+  assumes "g1 \<supseteq> I \<triangleleft> g2 \<triangleright> I"
+  assumes "r1 \<supseteq> I \<triangleleft> r2"
+  shows "guar(g1,r1) \<ge>\<^sub>I guar(g2,r2)"
 proof-
   let ?c1 = "\<pi> g1 \<squnion> \<epsilon> r1"
   let ?c2 = "\<pi> g2 \<squnion> \<epsilon> r2"
 
-  have refine_basis: "\<pi> g1 \<squnion> \<epsilon> r1 \<ge>\<^sub>p \<pi> g2 \<squnion> \<epsilon> r2"
+  have refine_basis: "\<pi> g1 \<squnion> \<epsilon> r1 \<ge>\<^sub>I \<pi> g2 \<squnion> \<epsilon> r2"
     using assms(1,2) data_refine_env data_refine_pgm data_refine_sup by force
 
   have non_test1: "nil \<iinter> ?c1 = seq.pre ?c1 ; \<bottom>"
@@ -186,13 +303,13 @@ qed
 
 (* Original lines 263-291. *)
 lemma data_refine_rely:
-  assumes "p \<triangleleft> r1 \<triangleright> p \<subseteq> r2"
-  shows "rely r1 \<ge>\<^sub>p rely r2"
+  assumes "I \<triangleleft> r1 \<triangleright> I \<subseteq> r2"
+  shows "rely r1 \<ge>\<^sub>I rely r2"
 proof -
-  let ?r = "p \<triangleleft> (UNIV \<triangleright> p)"
+  let ?r = "I \<triangleleft> (UNIV \<triangleright> I)"
   have refine_with_rely: "rely ?r \<iinter> rely r1 \<ge> rely r2"
   proof-
-    have lhs: "rely ?r \<iinter> rely r1 = rely (p \<triangleleft> r1 \<triangleright> p)"
+    have lhs: "rely ?r \<iinter> rely r1 = rely (I \<triangleleft> r1 \<triangleright> I)"
       using rely_conj_rely 
       by (simp only: restrict_range_domain)
 
@@ -200,16 +317,16 @@ proof -
       using assms rely_weaken lhs by auto
   qed
 
-  have refine_with_inv_rely: "inv p \<iinter> rely ?r \<iinter> rely r1 \<ge> inv p \<iinter> rely r2"
+  have refine_with_inv_rely: "inv I \<iinter> rely ?r \<iinter> rely r1 \<ge> inv I \<iinter> rely r2"
   proof-
-    have "inv p \<iinter> rely ?r \<iinter> rely r1 = inv p \<iinter> (rely ?r \<iinter> rely r1)"
+    have "inv I \<iinter> rely ?r \<iinter> rely r1 = inv I \<iinter> (rely ?r \<iinter> rely r1)"
       by (simp only: conj.assoc)
-    also have "\<dots> \<ge> inv p \<iinter> rely r2"
+    also have "\<dots> \<ge> inv I \<iinter> rely r2"
       by (simp only: refine_with_rely seq_conj.sync_mono_right)
     finally show ?thesis .
   qed
 
-  have expanded_data_refine: "inv p \<iinter> rely r1 \<ge> inv p \<iinter> rely r2"
+  have expanded_data_refine: "inv I \<iinter> rely r1 \<ge> inv I \<iinter> rely r2"
     using refine_with_inv_rely inv_extract_rely2 by auto
 
   show ?thesis using expanded_data_refine data_refine_def by auto
@@ -218,12 +335,12 @@ qed
 
 (* Original lines 293-302. *)
 lemma data_refine_opt:
-  assumes "q1 \<supseteq> p \<triangleleft> q2 \<triangleright> p"
-  shows "opt q1 \<ge>\<^sub>p opt q2" 
+  assumes "q1 \<supseteq> I \<triangleleft> q2 \<triangleright> I"
+  shows "opt q1 \<ge>\<^sub>I opt q2" 
 proof -
-  have "inv p \<iinter> opt q1 \<ge> inv p \<iinter> opt(p \<triangleleft> q2 \<triangleright> p)" (is "_ \<ge> ?rhs")
+  have "inv I \<iinter> opt q1 \<ge> inv I \<iinter> opt(I \<triangleleft> q2 \<triangleright> I)" (is "_ \<ge> ?rhs")
     by (simp add: assms opt_strengthen seq_conj.sync_mono_right) 
-  also have "?rhs = inv p \<iinter> opt q2"
+  also have "?rhs = inv I \<iinter> opt q2"
     using inv_opt_equiv by simp
   finally show ?thesis by (simp add: data_refine_def) 
 qed
@@ -231,17 +348,17 @@ qed
 
 (* Original lines 304-307. *)
 lemma data_refine_frame_mono:
-  assumes "c1 \<ge>\<^sub>p c2"
-  shows "v:\<^sub>sc1 \<ge>\<^sub>p v:\<^sub>sc2"
+  assumes "c1 \<ge>\<^sub>I c2"
+  shows "v:\<^sub>sc1 \<ge>\<^sub>I v:\<^sub>sc2"
   by (simp add: assms data_refine_add_conj var_frame_set_def)
 
 
 (* Original lines 309-335. *)
 lemma data_refine_frame:
-  assumes "p \<triangleleft> (id_bar vars2) \<triangleright> p \<subseteq> id_bar vars1"
-  shows "vars1:\<^sub>sc \<ge>\<^sub>p vars2:\<^sub>sc"
+  assumes "I \<triangleleft> (id_bar vars2) \<triangleright> I \<subseteq> id_bar vars1"
+  shows "vars1:\<^sub>sc \<ge>\<^sub>I vars2:\<^sub>sc"
 proof-
-  have r_inter: "p \<triangleleft> (UNIV \<triangleright> p) \<inter> (id_bar vars2) = p \<triangleleft> (id_bar vars2) \<triangleright> p "
+  have r_inter: "I \<triangleleft> (UNIV \<triangleright> I) \<inter> (id_bar vars2) = I \<triangleleft> (id_bar vars2) \<triangleright> I "
     by (simp add: restrict_range_domain)
 
   have lhs: "vars1:\<^sub>sc = guar\<^sub>\<pi> (id_bar vars1) \<iinter> c"
@@ -250,14 +367,14 @@ proof-
   have rhs: "vars2:\<^sub>sc = guar\<^sub>\<pi> (id_bar vars2) \<iinter> c"
     by (simp add: var_frame_set_def)
 
-  have "vars2:\<^sub>sc \<iinter> inv p = inv p \<iinter> guar\<^sub>\<pi> (id_bar vars2) \<iinter> c"
+  have "vars2:\<^sub>sc \<iinter> inv I = inv I \<iinter> guar\<^sub>\<pi> (id_bar vars2) \<iinter> c"
     using rhs local.conj.commute seq_conj.sync_assoc by auto
-  also have "\<dots> = inv p \<iinter> guar\<^sub>\<pi> (p \<triangleleft> (UNIV \<triangleright> p)) \<iinter> guar\<^sub>\<pi> (id_bar vars2) \<iinter> c"
+  also have "\<dots> = inv I \<iinter> guar\<^sub>\<pi> (I \<triangleleft> (UNIV \<triangleright> I)) \<iinter> guar\<^sub>\<pi> (id_bar vars2) \<iinter> c"
     by (simp add: evolve_def inv_alt_def2 seq_conj.assert_op_sync_left)
-  also have z: "\<dots> = inv p \<iinter> guar\<^sub>\<pi> (p \<triangleleft> (id_bar vars2) \<triangleright> p) \<iinter> c"
+  also have z: "\<dots> = inv I \<iinter> guar\<^sub>\<pi> (I \<triangleleft> (id_bar vars2) \<triangleright> I) \<iinter> c"
     by (simp add: pgm_guar_conj_pgm_guar r_inter seq_conj.sync_assoc)
 
-  have "inv p \<iinter> guar\<^sub>\<pi> (id_bar vars1) \<iinter> c \<ge>\<^sub>p inv p \<iinter> guar\<^sub>\<pi> (p \<triangleleft> (id_bar vars2) \<triangleright> p) \<iinter> c"
+  have "inv I \<iinter> guar\<^sub>\<pi> (id_bar vars1) \<iinter> c \<ge>\<^sub>I inv I \<iinter> guar\<^sub>\<pi> (I \<triangleleft> (id_bar vars2) \<triangleright> I) \<iinter> c"
     using assms pgm_guar_strengthen refsto_implies_data_refine
       seq_conj.sync_mono_left seq_conj.sync_mono_right by auto
   then show ?thesis
@@ -285,19 +402,26 @@ lemma bind_inv: "inv I \<iinter> bind e in body = inv I \<iinter> bind e in (\<l
 lemma data_refine_bind:
   assumes step: "\<And>k2. \<exists>k1. \<lblot>e1\<rblot>k1 ; c1 k1 \<ge>\<^sub>I \<lblot>e2\<rblot>k2 ; c2 k2"
   shows "bind e1 in c1 \<ge>\<^sub>I bind e2 in c2"
-  unfolding data_refine_def
-  apply (simp only: bind_inv_alt2; rule SUP_mono) using step data_refine_def by simp
+  unfolding data_refine_def bind_inv_alt2
+  by (rule SUP_mono) (use step data_refine_def in simp)
 
 
-(* Original lines 353-357. *)
+(* Original lines 353-364. *)
 lemma data_refine_bind_mono':
   assumes step: "\<And>k. c k \<ge>\<^sub>I d k"
-  shows "bind e in c \<ge>\<^sub>I bind e in c"
-  unfolding data_refine_def
-  using bind_inv bind_ref_mono' step by simp 
+  shows "bind e in c \<ge>\<^sub>I bind e in d"
+proof-
+  have "bind e in (\<lambda>k. inv I \<iinter> c k) \<ge> bind e in (\<lambda>k. inv I \<iinter> d k)"
+    using bind_ref_mono' data_refine_def step by auto
+  then have "inv I \<iinter> bind e in (\<lambda>k. inv I \<iinter> c k) \<ge> inv I \<iinter> bind e in (\<lambda>k. inv I \<iinter> d k)"
+    by (simp add: seq_conj.sync_mono_right)
+  then have "inv I \<iinter> bind e in c \<ge> inv I \<iinter> bind e in d"
+    using bind_inv_alt bind_command_def by auto
+  then show ?thesis unfolding data_refine_def .
+qed 
 
 
-(* Original lines 359-363. *)
+(* Original lines 366-370. *)
 text \<open>A framed terminating command can always be reduced to one atomic
 step satisfying the same frame.\<close>
 lemma data_refine_framed_terminate_atomic:
@@ -305,14 +429,14 @@ lemma data_refine_framed_terminate_atomic:
   by (rule refsto_implies_data_refine[OF framed_terminate_ref_atomic])
 
 
-(* Original lines 365-368. *)
+(* Original lines 372-375. *)
 lemma data_refine_local_atomic_extract_framed_spec_left:
   "\<langle>p,q,vars\<rangle> \<ge>\<^sub>I vars:\<^sub>s\<lparr>q0\<rparr> ; \<langle>p,q,vars\<rangle>"
   by (rule refsto_implies_data_refine
       [OF local_atomic_extract_framed_spec_left])
 
 
-(* Original lines 370-379. *)
+(* Original lines 377-386. *)
 lemma refine_local_atomic_from_atomic:
   assumes "rely rel \<iinter> guar\<^sub>\<pi> g \<iinter> \<lbrace>p0\<rbrace> ; v:\<^sub>s\<langle>p,post_rel\<rangle> \<ge>\<^sub>I c"
   shows "rely rel \<iinter> guar\<^sub>\<pi> g \<iinter> \<lbrace>p0\<rbrace> ; v:\<^sub>s\<langle>p,post_rel,L\<rangle> \<ge>\<^sub>I c"
@@ -325,7 +449,7 @@ proof -
 qed
 
 
-(* Original lines 381-453. *)
+(* Original lines 388-460. *)
 text \<open>Data refine atomics/local atomics to assign.
 An invariant-aware form of \<open>chain_atomic_spec_ref_assign_op\<close>.
 
@@ -401,7 +525,7 @@ proof -
 qed
 
 
-(* Original lines 455-479. *)
+(* Original lines 462-486. *)
 text \<open>The framed counterpart to \<open>chain_data_refine_atomic_spec_to_assign_op\<close>.\<close>
 lemma chain_data_refine_framed_atomic_spec_to_assign_op:
   assumes refl_r: "refl r"
@@ -429,7 +553,7 @@ proof -
 qed
 
 
-(* Original lines 481-491. *)
+(* Original lines 488-498. *)
 lemma chain_data_refine_framed_atomic_spec_to_open_assign:
   assumes refl_r: "refl r"
   assumes refl_g: "refl g"
@@ -443,7 +567,7 @@ lemma chain_data_refine_framed_atomic_spec_to_open_assign:
       [where assign_op = "\<lambda>lv k. open_update lv k G"] open_assign_def by presburger
 
 
-(* Original lines 493-508. *)
+(* Original lines 500-515. *)
 lemma chain_data_refine_framed_atomic_spec_to_open_assign_no_pre:
   assumes refl_r: "refl r"
   assumes refl_g: "refl g"
@@ -462,7 +586,7 @@ proof-
 qed
 
 
-(* Original lines 510-528. *)
+(* Original lines 517-535. *)
 lemma chain_data_refine_framed_atomic_spec_to_open_assign_no_post:
   assumes refl_r: "refl r"
   assumes refl_g: "refl g"
@@ -484,7 +608,7 @@ proof -
 qed
 
 
-(* Original lines 530-562. *)
+(* Original lines 537-569. *)
 lemma data_refine_intro_local_atomic_open_assign_left:
   assumes refl_r: "refl r"
   assumes refl_g: "refl g"
@@ -520,7 +644,7 @@ proof -
 qed
 
 
-(* Original lines 564-584. *)
+(* Original lines 571-591. *)
 lemma data_refine_intro_local_atomic_open_assign_left_no_pre:
   assumes refl_r: "refl r"
   assumes refl_g: "refl g"
@@ -544,28 +668,45 @@ proof -
 qed
 
 
-(* Original lines 586-592. *)
+(* Original lines 593-599. *)
 lemma data_refine_constant:
   assumes "\<kappa>2 = k2 \<Longrightarrow> \<kappa>1 = k1"
-  shows "\<lblot>Constant \<kappa>1\<rblot>k1 \<ge>\<^sub>p \<lblot>Constant \<kappa>2\<rblot>k2" 
+  shows "\<lblot>Constant \<kappa>1\<rblot>k1 \<ge>\<^sub>I \<lblot>Constant \<kappa>2\<rblot>k2" 
   by (simp add: assms refsto_implies_data_refine) 
 
 (* TODO what about different k *)
 (* TODO unary to e2, requires thinking about types *)
 
 
-(* Original lines 608-623. *)
-lemma data_refine_binary:
-  assumes "\<forall>k1' k2'. (\<exists>k1 k2. binop k1 k2 = binop2 k1' k2' \<and> (\<lblot>e1\<rblot>k1 \<ge>\<^sub>p \<lblot>e1'\<rblot>k1') \<and> (\<lblot>e2\<rblot>k2 \<ge>\<^sub>p \<lblot>e2'\<rblot>k2'))" 
-  shows "\<lblot>Binary binop e1 e2\<rblot>k \<ge>\<^sub>p \<lblot>Binary binop2 e1' e2'\<rblot>k" 
+(* Original lines 600-613. *)
+lemma data_refine_unary:
+  assumes "\<forall>k1'. (\<exists>k1. unop k1 = unop k1' \<and> (\<lblot>e1\<rblot>k1 \<ge>\<^sub>I \<lblot>e1'\<rblot>k1'))" 
+  shows "\<lblot>Unary unop e1\<rblot>k \<ge>\<^sub>I \<lblot>Unary unop e1'\<rblot>k" 
 proof -
-  have asm: "\<forall>k1' k2'. (\<exists>k1 k2. binop k1 k2 = binop2 k1' k2' \<and> (\<lblot>e1\<rblot>k1 \<parallel> \<lblot>e2\<rblot>k2 \<ge>\<^sub>p \<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2'))"
+  have assm: "\<forall>d \<in> {\<lblot>e1'\<rblot>k1' |k1'. unop k1' = k}. \<exists>c \<in> {\<lblot>e1\<rblot>k1 |k1. unop k1 = k}. c \<ge>\<^sub>I d" 
+    using assms by auto
+  have "\<lblot>Unary unop e1\<rblot>k = \<Squnion>{\<lblot>e1\<rblot>k1 |k1. unop k1 = k}" 
+    by (simp add: setcompr_eq_image)  
+  also have z1: "\<dots> \<ge>\<^sub>I \<Squnion>{\<lblot>e1'\<rblot>k1' |k1'. unop k1' = k}" 
+    using assm data_refine_Sup data_refine_refl data_refine_seq by presburger
+  have z2: "\<Squnion>{\<lblot>e1'\<rblot>k1' |k1'. unop k1' = k} = \<lblot>Unary unop e1'\<rblot>k" 
+    by (simp add: setcompr_eq_image)
+  show ?thesis using z1 z2 using calculation by argo 
+qed
+
+
+(* Original lines 615-630. *)
+lemma data_refine_binary:
+  assumes "\<forall>k1' k2'. (\<exists>k1 k2. binop k1 k2 = binop2 k1' k2' \<and> (\<lblot>e1\<rblot>k1 \<ge>\<^sub>I \<lblot>e1'\<rblot>k1') \<and> (\<lblot>e2\<rblot>k2 \<ge>\<^sub>I \<lblot>e2'\<rblot>k2'))" 
+  shows "\<lblot>Binary binop e1 e2\<rblot>k \<ge>\<^sub>I \<lblot>Binary binop2 e1' e2'\<rblot>k" 
+proof -
+  have asm: "\<forall>k1' k2'. (\<exists>k1 k2. binop k1 k2 = binop2 k1' k2' \<and> (\<lblot>e1\<rblot>k1 \<parallel> \<lblot>e2\<rblot>k2 \<ge>\<^sub>I \<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2'))"
     using assms data_refine_par by blast
-  have both: "\<forall>d \<in> {\<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2' |k1' k2'. binop2 k1' k2' = k}. \<exists>c \<in> {\<lblot>e1\<rblot>k1 \<parallel> \<lblot>e2\<rblot>k2 |k1 k2. binop k1 k2 = k}. c \<ge>\<^sub>p d" 
+  have both: "\<forall>d \<in> {\<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2' |k1' k2'. binop2 k1' k2' = k}. \<exists>c \<in> {\<lblot>e1\<rblot>k1 \<parallel> \<lblot>e2\<rblot>k2 |k1 k2. binop k1 k2 = k}. c \<ge>\<^sub>I d" 
     using asm by fastforce
   have "\<lblot>Binary binop e1 e2\<rblot>k = (\<Squnion>{\<lblot>e1\<rblot>k1 \<parallel> \<lblot>e2\<rblot>k2 |k1 k2. binop k1 k2 = k})" 
     using binary_alt by force
-  also have z1: "\<dots> \<ge>\<^sub>p \<Squnion>{\<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2' |k1' k2'. binop2 k1' k2' = k}" 
+  also have z1: "\<dots> \<ge>\<^sub>I \<Squnion>{\<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2' |k1' k2'. binop2 k1' k2' = k}" 
     using both data_refine_Sup data_refine_refl data_refine_seq by presburger
   have z2: "\<Squnion>{\<lblot>e1'\<rblot>k1' \<parallel> \<lblot>e2'\<rblot>k2' |k1' k2'. binop2 k1' k2' = k} = \<lblot>Binary binop2 e1' e2'\<rblot>k" 
     by simp 
@@ -573,23 +714,23 @@ proof -
 qed
 
 
-(* Original lines 625-645. *)
+(* Original lines 632-652. *)
 lemma data_refine_while:
-  assumes bt: "\<lblot>b1\<rblot>true \<ge>\<^sub>p \<lblot>b2\<rblot>true"
-  assumes bf: "\<lblot>b1\<rblot>false \<ge>\<^sub>p \<lblot>b2\<rblot>false"
-  assumes c: "c1 \<ge>\<^sub>p c2"
-  assumes bk: "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k \<ge>\<^sub>p \<lblot>b2\<rblot>k"
-  shows "while b1 do c1 od \<ge>\<^sub>p while b2 do c2 od"
+  assumes bt: "\<lblot>b1\<rblot>true \<ge>\<^sub>I \<lblot>b2\<rblot>true"
+  assumes bf: "\<lblot>b1\<rblot>false \<ge>\<^sub>I \<lblot>b2\<rblot>false"
+  assumes c: "c1 \<ge>\<^sub>I c2"
+  assumes bk: "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k \<ge>\<^sub>I \<lblot>b2\<rblot>k"
+  shows "while b1 do c1 od \<ge>\<^sub>I while b2 do c2 od"
 proof -
-  have t: "\<lblot>b1\<rblot>true ; c1 \<ge>\<^sub>p \<lblot>b2\<rblot>true ; c2" 
+  have t: "\<lblot>b1\<rblot>true ; c1 \<ge>\<^sub>I \<lblot>b2\<rblot>true ; c2" 
     by (simp add: bt c data_refine_seq) 
-  have "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k ; \<top> \<ge>\<^sub>p \<lblot>b2\<rblot>k ; \<top>" 
+  have "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k ; \<top> \<ge>\<^sub>I \<lblot>b2\<rblot>k ; \<top>" 
     by (simp add: bk data_refine_refl data_refine_seq) 
-  then have bk: "(\<Squnion>k \<in> -boolean. \<lblot>b1\<rblot>k ; \<top>) \<ge>\<^sub>p (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" 
+  then have bk: "(\<Squnion>k \<in> -boolean. \<lblot>b1\<rblot>k ; \<top>) \<ge>\<^sub>I (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" 
     by (simp add: data_refine_SUP)
   have "while b1 do c1 od = (\<lblot>b1\<rblot>true ; c1)\<^sup>\<omega> ; (\<lblot>b1\<rblot>false \<squnion> (\<Squnion>k\<in>-boolean. \<lblot>b1\<rblot>k ; \<top>))"
     by (simp add: while_command_def)
-  also have z: "\<dots> \<ge>\<^sub>p (\<lblot>b2\<rblot>true ; c2)\<^sup>\<omega> ; (\<lblot>b2\<rblot>false \<squnion> (\<Squnion>k\<in>-boolean. \<lblot>b2\<rblot>k ; \<top>))" (is "_ \<ge>\<^sub>p ?rhs")
+  also have z: "\<dots> \<ge>\<^sub>I (\<lblot>b2\<rblot>true ; c2)\<^sup>\<omega> ; (\<lblot>b2\<rblot>false \<squnion> (\<Squnion>k\<in>-boolean. \<lblot>b2\<rblot>k ; \<top>))" (is "_ \<ge>\<^sub>I ?rhs")
     using data_refine_iter data_refine_sup data_refine_seq t bk bf data_refine_refl by presburger
   have "?rhs =  while b2 do c2 od" 
     by (simp add: while_command_def) 
@@ -597,35 +738,35 @@ proof -
 qed
 
 
-(* Original lines 647-652. *)
+(* Original lines 654-659. *)
 lemma data_refine_while_alt:
-  assumes b: "\<And>k. \<lblot>b1\<rblot>k \<ge>\<^sub>p \<lblot>b2\<rblot>k"
-  assumes c: "c1 \<ge>\<^sub>p c2"
-  shows "while b1 do c1 od \<ge>\<^sub>p while b2 do c2 od"
+  assumes b: "\<And>k. \<lblot>b1\<rblot>k \<ge>\<^sub>I \<lblot>b2\<rblot>k"
+  assumes c: "c1 \<ge>\<^sub>I c2"
+  shows "while b1 do c1 od \<ge>\<^sub>I while b2 do c2 od"
   using data_refine_while
   by (simp add: b c)
 
 
-(* Original lines 654-677. *)
+(* Original lines 661-684. *)
 lemma data_refine_conditional:
-  assumes bt: "\<lblot>b1\<rblot>true \<ge>\<^sub>p \<lblot>b2\<rblot>true"
-  assumes bf: "\<lblot>b1\<rblot>false \<ge>\<^sub>p \<lblot>b2\<rblot>false"
-  assumes c: "c1 \<ge>\<^sub>p c2"
-  assumes d: "d1 \<ge>\<^sub>p d2"
-  assumes bk: "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k \<ge>\<^sub>p \<lblot>b2\<rblot>k"
-  shows "if b1 then c1 else d1 fi \<ge>\<^sub>p if b2 then c2 else d2 fi"
+  assumes bt: "\<lblot>b1\<rblot>true \<ge>\<^sub>I \<lblot>b2\<rblot>true"
+  assumes bf: "\<lblot>b1\<rblot>false \<ge>\<^sub>I \<lblot>b2\<rblot>false"
+  assumes c: "c1 \<ge>\<^sub>I c2"
+  assumes d: "d1 \<ge>\<^sub>I d2"
+  assumes bk: "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k \<ge>\<^sub>I \<lblot>b2\<rblot>k"
+  shows "if b1 then c1 else d1 fi \<ge>\<^sub>I if b2 then c2 else d2 fi"
 proof -
-  have t: "\<lblot>b1\<rblot>true ; c1 \<ge>\<^sub>p \<lblot>b2\<rblot>true ; c2" 
+  have t: "\<lblot>b1\<rblot>true ; c1 \<ge>\<^sub>I \<lblot>b2\<rblot>true ; c2" 
     by (simp add: bt c data_refine_seq) 
-  have f: "\<lblot>b1\<rblot>false ; d1 \<ge>\<^sub>p \<lblot>b2\<rblot>false ; d2" 
+  have f: "\<lblot>b1\<rblot>false ; d1 \<ge>\<^sub>I \<lblot>b2\<rblot>false ; d2" 
     by (simp add: bf d data_refine_seq)
-  have "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k ; \<top> \<ge>\<^sub>p \<lblot>b2\<rblot>k ; \<top>" 
+  have "\<And>k. k \<in> -boolean \<Longrightarrow> \<lblot>b1\<rblot>k ; \<top> \<ge>\<^sub>I \<lblot>b2\<rblot>k ; \<top>" 
     by (simp add: bk data_refine_refl data_refine_seq) 
-  then have bk: "(\<Squnion>k \<in> -boolean. \<lblot>b1\<rblot>k ; \<top>) \<ge>\<^sub>p (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" 
+  then have bk: "(\<Squnion>k \<in> -boolean. \<lblot>b1\<rblot>k ; \<top>) \<ge>\<^sub>I (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" 
     by (simp add: data_refine_SUP)
   have "if b1 then c1 else d1 fi = \<lblot>b1\<rblot>true ; c1 \<squnion> \<lblot>b1\<rblot>false ; d1 \<squnion> (\<Squnion>k \<in> -boolean. \<lblot>b1\<rblot>k ; \<top>)"
     unfolding if_command_def by blast
-  also have z: "\<dots> \<ge>\<^sub>p \<lblot>b2\<rblot>true ; c2 \<squnion> \<lblot>b2\<rblot>false ; d2 \<squnion> (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" (is "_ \<ge>\<^sub>p ?rhs")
+  also have z: "\<dots> \<ge>\<^sub>I \<lblot>b2\<rblot>true ; c2 \<squnion> \<lblot>b2\<rblot>false ; d2 \<squnion> (\<Squnion>k \<in> -boolean. \<lblot>b2\<rblot>k ; \<top>)" (is "_ \<ge>\<^sub>I ?rhs")
     using data_refine_sup data_refine_seq t f bk data_refine_refl by presburger
   have "?rhs = if b2 then c2 else d2 fi" 
     by (simp add: if_command_def) 
@@ -633,7 +774,22 @@ proof -
 qed
 
 
-(* Original lines 692-748. *)
+(* Original lines 686-697. *)
+lemma data_refine_gfp:
+  assumes "inv I \<iinter> gfp f1 = gfp(\<lambda>x. inv I \<iinter> f1 x)" 
+  assumes "inv I \<iinter> gfp f2 = gfp(\<lambda>x. inv I \<iinter> f2 x)" 
+  assumes "\<And>x. f1 x \<ge>\<^sub>I f2 x"
+  shows "gfp f1 \<ge>\<^sub>I gfp f2" 
+proof -
+  have "inv I \<iinter> gfp f1 \<ge> gfp(\<lambda>x. inv I \<iinter> f2 x)" (is "_ \<ge> ?rhs") 
+    by (metis assms(1,3) data_refine_def gfp_mono) 
+  also have "?rhs = inv I \<iinter> gfp f2" 
+    by (simp add: assms(2)) 
+  finally show ?thesis by (simp add: data_refine_def) 
+qed
+
+
+(* Original lines 699-755. *)
 lemma data_refine_atomic_spec:
   assumes "I \<inter> p1 \<subseteq> p2"
   assumes "(I \<inter> p1) \<triangleleft> q2 \<triangleright> I \<subseteq> q1"
@@ -693,7 +849,7 @@ proof -
 qed
 
 
-(* Original lines 750-761. *)
+(* Original lines 757-768. *)
 lemma data_refine_local_atomic_spec:
   assumes "I \<inter> p1 \<subseteq> p2"
   assumes "(I \<inter> p1) \<triangleleft> q2 \<triangleright> I \<subseteq> q1"
@@ -708,7 +864,7 @@ proof -
 qed
 
 
-(* Original lines 763-797. *)
+(* Original lines 770-804. *)
 lemma data_refine_spec:
   assumes "I \<inter> p1 \<subseteq> p2"
   assumes "(I \<inter> p1) \<triangleleft> q2 \<triangleright> I \<subseteq> q1"
@@ -746,7 +902,7 @@ proof -
 qed
 
 
-(* Original lines 799-803. *)
+(* Original lines 806-810. *)
 lemma var_deref_eval_inner_alternate: 
   "(if lv = (Base v) then idle else \<bottom>) ; \<tau>({\<sigma>. get lv \<sigma> = k}) ; idle =
    (if lv = (Base v) then (idle  ; \<tau>({\<sigma>. get lv \<sigma> = k}) ; idle) else \<bottom>)"
@@ -754,7 +910,7 @@ lemma var_deref_eval_inner_alternate:
 (* TODO move to better place *)
 
 
-(* Original lines 805-838. *)
+(* Original lines 812-845. *)
 lemma var_deref_eval_alternate: "\<lblot>Deref (Var v)\<rblot>k = idle ; \<tau>({\<sigma>. get (Base v) \<sigma> = k}) ; idle"
 proof-
   have "\<lblot>Deref (Var v)\<rblot>k = (\<Squnion>lv. (if lv = (Base v) then idle else \<bottom>) ; \<tau>({\<sigma>. get lv \<sigma> = k}) ; idle)"
@@ -791,28 +947,28 @@ proof-
 qed
 
 
-(* Original lines 840-843. *)
+(* Original lines 847-850. *)
 lemma restrict_test_in_variable_refine: 
-  "inv p \<iinter> (idle ; \<tau>({\<sigma>. get (Base v) \<sigma> = k}) ; idle) = 
-   inv p \<iinter> (idle ; \<tau>(p \<inter> {\<sigma>. get (Base v) \<sigma> = k}) ; idle)"
+  "inv I \<iinter> (idle ; \<tau>({\<sigma>. get (Base v) \<sigma> = k}) ; idle) = 
+   inv I \<iinter> (idle ; \<tau>(I \<inter> {\<sigma>. get (Base v) \<sigma> = k}) ; idle)"
   using inv_distrib_seq inv_test_alt by auto
 
 
-(* Original lines 845-863. *)
+(* Original lines 852-870. *)
 lemma data_refine_variable:
-  assumes "expr_eq (Deref (Var v1)) k1 \<supseteq> p \<inter> expr_eq (Deref (Var v2)) k2"
-  shows "\<lblot>Deref (Var v1)\<rblot>k1 \<ge>\<^sub>p \<lblot>Deref (Var v2)\<rblot>k2"
+  assumes "expr_eq (Deref (Var v1)) k1 \<supseteq> I \<inter> expr_eq (Deref (Var v2)) k2"
+  shows "\<lblot>Deref (Var v1)\<rblot>k1 \<ge>\<^sub>I \<lblot>Deref (Var v2)\<rblot>k2"
 proof-
-  have assm_alt: "p \<inter> {\<sigma>. get (Base v1) \<sigma> = k1} \<supseteq> p \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}"
+  have assm_alt: "I \<inter> {\<sigma>. get (Base v1) \<sigma> = k1} \<supseteq> I \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}"
     using assms expr_eq_def by auto
 
-  have lhs: "inv p \<iinter> \<lblot>Deref (Var v1)\<rblot>k1 = inv p \<iinter> (idle ; \<tau>(p \<inter> {\<sigma>. get (Base v1) \<sigma> = k1}) ; idle)"
+  have lhs: "inv I \<iinter> \<lblot>Deref (Var v1)\<rblot>k1 = inv I \<iinter> (idle ; \<tau>(I \<inter> {\<sigma>. get (Base v1) \<sigma> = k1}) ; idle)"
     using restrict_test_in_variable_refine var_deref_eval_alternate by fastforce
 
-  have rhs: "inv p \<iinter> \<lblot>Deref (Var v2)\<rblot>k2 = inv p \<iinter> (idle ; \<tau>(p \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}) ; idle)"
+  have rhs: "inv I \<iinter> \<lblot>Deref (Var v2)\<rblot>k2 = inv I \<iinter> (idle ; \<tau>(I \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}) ; idle)"
     using restrict_test_in_variable_refine var_deref_eval_alternate by fastforce
 
-  have rhs_refines_lhs: "inv p \<iinter> (idle ; \<tau>(p \<inter> {\<sigma>. get (Base v1) \<sigma> = k1}) ; idle) \<ge> inv p \<iinter> (idle ; \<tau>(p \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}) ; idle)"
+  have rhs_refines_lhs: "inv I \<iinter> (idle ; \<tau>(I \<inter> {\<sigma>. get (Base v1) \<sigma> = k1}) ; idle) \<ge> inv I \<iinter> (idle ; \<tau>(I \<inter> {\<sigma>. get (Base v2) \<sigma> = k2}) ; idle)"
     using assm_alt seq.test_mono seq_conj.sync_mono_right seq_par.seq_mono_left seq_par.seq_mono_right by auto
 
   then show ?thesis
@@ -820,7 +976,7 @@ proof-
 qed
 
 
-(* Original lines 865-901. *)
+(* Original lines 872-908. *)
 lemma data_refine_assignment:
   assumes q_tolerates_r: "tolerates_interference p q (-(I \<triangleleft> UNIV) \<union> (UNIV \<triangleright> I))"
   assumes establish_P1: "\<And>lv. {. p .} rely (-(I \<triangleleft> UNIV) \<union> (UNIV \<triangleright> I)) \<iinter> \<ltort>lve\<rtort>lv {. P1 lv .}"

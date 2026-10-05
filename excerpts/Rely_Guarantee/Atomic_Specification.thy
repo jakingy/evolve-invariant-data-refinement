@@ -419,13 +419,13 @@ lemma atomic_extract_pre_left: "\<lbrace>p\<rbrace> ; \<langle>p,q\<rangle> = \<
 
 (* Original lines 449-459. *)
 lemma assert_atomic_spec_into_pre:
-  assumes stable_a: "stable a r"
-  shows "rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>a \<inter> p, q\<rangle>)"
+  assumes stable_q': "stable q' r"
+  shows "rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>q' \<inter> p, q\<rangle>)"
 proof-
-  have "rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (rely r \<iinter> (\<lbrace>a\<rbrace> ; idle) ; \<lbrace>p\<rbrace> ; opt q; idle)"
+  have "rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (rely r \<iinter> (\<lbrace>q'\<rbrace> ; idle) ; \<lbrace>p\<rbrace> ; opt q; idle)"
     by (simp add: atomic_spec_def seq_par.seq_assoc)
-  also have "\<dots> = rely r \<iinter> (\<lbrace>a\<rbrace> ; idle ; \<lbrace>a\<rbrace> ; \<lbrace>p\<rbrace> ; opt q; idle)"
-    using rely_conj_seq rely_idle_stable_assert_eq stable_a by fastforce
+  also have "\<dots> = rely r \<iinter> (\<lbrace>q'\<rbrace> ; idle ; \<lbrace>q'\<rbrace> ; \<lbrace>p\<rbrace> ; opt q; idle)"
+    using rely_conj_seq rely_idle_stable_assert_eq stable_q' by fastforce
   then show ?thesis
     by (simp add: atomic_spec_def seq.assert_op_assert seq_par.seq_assoc)
 qed
@@ -433,26 +433,26 @@ qed
 
 (* Original lines 461-485. *)
 lemma atomic_spec_extract_post_test:
-  assumes q_establishes_a: "p \<triangleleft> q \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a r"
-  shows "rely r \<iinter> \<langle>p,q\<rangle> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<tau> a)"
+  assumes q_establishes_q': "p \<triangleleft> q \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' r"
+  shows "rely r \<iinter> \<langle>p,q\<rangle> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<tau> q')"
 proof-
-  have intro_a: "opt (p \<triangleleft> q) = opt (p \<triangleleft> q) ; \<tau> a"
-    by (simp add: opt_extract_test q_establishes_a)
+  have intro_q': "opt (p \<triangleleft> q) = opt (p \<triangleleft> q) ; \<tau> q'"
+    by (simp add: opt_extract_test q_establishes_q')
 
   have "rely r \<iinter> \<langle>p,q\<rangle> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt q ; (rely r \<iinter> idle))"
     by (simp add: atomic_spec_def rely_conj_seq)
   also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; (rely r \<iinter> idle))"
     using opt_assert_internalise seq_par.seq_assoc by auto
-  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<tau> a ; (rely r \<iinter> idle))"
-    using intro_a seq_par.seq_assoc by auto
-  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<tau> a ; (rely r \<iinter> idle) ; \<tau> a)"
-    using rely_conj_seq seq_par.seq_assoc stable_a stable_test by fastforce
-  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; (rely r \<iinter> idle) ; \<tau> a)"
-    using intro_a seq_par.seq_assoc by auto
-  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt q ; (rely r \<iinter> idle) ; \<tau> a)"
+  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<tau> q' ; (rely r \<iinter> idle))"
+    using intro_q' seq_par.seq_assoc by auto
+  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<tau> q' ; (rely r \<iinter> idle) ; \<tau> q')"
+    using rely_conj_seq seq_par.seq_assoc stable_q' stable_test by fastforce
+  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; (rely r \<iinter> idle) ; \<tau> q')"
+    using intro_q' seq_par.seq_assoc by auto
+  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt q ; (rely r \<iinter> idle) ; \<tau> q')"
     using opt_assert_internalise seq_par.seq_assoc by auto
-  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt q ; idle ; \<tau> a)"
+  also have "\<dots> = rely r \<iinter> (idle ; \<lbrace>p\<rbrace> ; opt q ; idle ; \<tau> q')"
     by (simp add: rely_conj_seq)
   finally show ?thesis 
     by (simp add: atomic_spec_def)
@@ -463,27 +463,27 @@ qed
 text \<open>A postcondition established by an optional atomic step can be retained after
 the following idle segment, provided it is stable under the rely.\<close>
 lemma rely_assert_opt_idle_extract_post_assert:
-  assumes q_establishes_a: "p \<triangleleft> q \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a r"
-  shows "rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle) = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>a\<rbrace>)"
+  assumes q_establishes_q': "p \<triangleleft> q \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' r"
+  shows "rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle) = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>q'\<rbrace>)"
 proof -
-  have opt_post: "\<lbrace>p\<rbrace> ; opt q = \<lbrace>p\<rbrace> ; opt q ; \<lbrace>a\<rbrace>"
+  have opt_post: "\<lbrace>p\<rbrace> ; opt q = \<lbrace>p\<rbrace> ; opt q ; \<lbrace>q'\<rbrace>"
   proof -
     have "\<lbrace>p\<rbrace> ; opt q = \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q)"
       by (rule opt_assert_internalise)
-    also have "\<dots> = \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<lbrace>a\<rbrace>"
-      using opt_extract_assert q_establishes_a seq_par.seq_assoc by auto
-    also have "\<dots> = \<lbrace>p\<rbrace> ; opt q ; \<lbrace>a\<rbrace>"
+    also have "\<dots> = \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q) ; \<lbrace>q'\<rbrace>"
+      using opt_extract_assert q_establishes_q' seq_par.seq_assoc by auto
+    also have "\<dots> = \<lbrace>p\<rbrace> ; opt q ; \<lbrace>q'\<rbrace>"
       by (simp add: \<open>\<lbrace>p\<rbrace> ; opt q = \<lbrace>p\<rbrace> ; opt (p \<triangleleft> q)\<close>)
     finally show ?thesis .
   qed
 
-  have "rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle) = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; \<lbrace>a\<rbrace> ; idle)"
+  have "rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle) = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; \<lbrace>q'\<rbrace> ; idle)"
     using opt_post by auto
-  also have "\<dots> = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; \<lbrace>a\<rbrace> ; idle ; \<lbrace>a\<rbrace>)"
-    using rely_idle_stable_assert_eq[OF stable_a]
+  also have "\<dots> = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; \<lbrace>q'\<rbrace> ; idle ; \<lbrace>q'\<rbrace>)"
+    using rely_idle_stable_assert_eq[OF stable_q']
       by (simp add: rely_conj_seq seq_par.seq_assoc)
-  also have "\<dots> = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>a\<rbrace>)"
+  also have "\<dots> = rely r \<iinter> (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>q'\<rbrace>)"
     using opt_post by auto
   finally show ?thesis .
 qed
@@ -491,18 +491,18 @@ qed
 
 (* Original lines 515-530. *)
 lemma atomic_spec_extract_post_assert:
-  assumes q_establishes_a: "p \<triangleleft> q \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a r"
-  shows "rely r \<iinter> \<langle>p,q\<rangle> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  assumes q_establishes_q': "p \<triangleleft> q \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' r"
+  shows "rely r \<iinter> \<langle>p,q\<rangle> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
 proof -
   have "rely r \<iinter> \<langle>p,q\<rangle> =
       rely r \<iinter> (idle ; (\<lbrace>p\<rbrace> ; opt q ; idle))"
     by (simp add: atomic_spec_def rely_conj_seq seq_par.seq_assoc)
   also have "\<dots> = rely r \<iinter>
-      (idle ; (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>a\<rbrace>))"
-    using rely_assert_opt_idle_extract_post_assert[OF q_establishes_a stable_a]
+      (idle ; (\<lbrace>p\<rbrace> ; opt q ; idle ; \<lbrace>q'\<rbrace>))"
+    using rely_assert_opt_idle_extract_post_assert[OF q_establishes_q' stable_q']
       by (simp add: rely_conj_seq seq_par.seq_assoc)
-  also have "\<dots> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  also have "\<dots> = rely r \<iinter> (\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
     by (simp add: atomic_spec_def rely_conj_seq seq_par.seq_assoc)
   finally show ?thesis .
 qed
@@ -510,23 +510,23 @@ qed
 
 (* Original lines 532-552. *)
 lemma framed_atomic_spec_extract_post_assert:
-  assumes q_establishes_a: "p \<triangleleft> q \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a r"
+  assumes q_establishes_q': "p \<triangleleft> q \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' r"
   shows "rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle> =
-    rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+    rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
 proof -
-  have rely_assert: "rely r \<iinter> \<lbrace>a\<rbrace> = \<lbrace>a\<rbrace>"
+  have rely_assert: "rely r \<iinter> \<lbrace>q'\<rbrace> = \<lbrace>q'\<rbrace>"
     by (metis local.conj.commute rely_conj_assert)
   have "rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle> =
       vars:\<^sub>s(rely r \<iinter> \<langle>p,q\<rangle>)"
     by (rule rely_conj_var_frame_set)
-  also have "\<dots> = vars:\<^sub>s(rely r \<iinter> \<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
-    by (rule arg_cong[OF atomic_spec_extract_post_assert[OF q_establishes_a stable_a]])
-  also have "\<dots> = vars:\<^sub>s(rely r \<iinter> \<langle>p,q\<rangle>) ; \<lbrace>a\<rbrace>"
+  also have "\<dots> = vars:\<^sub>s(rely r \<iinter> \<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
+    by (rule arg_cong[OF atomic_spec_extract_post_assert[OF q_establishes_q' stable_q']])
+  also have "\<dots> = vars:\<^sub>s(rely r \<iinter> \<langle>p,q\<rangle>) ; \<lbrace>q'\<rbrace>"
     by (simp add: rely_assert rely_conj_seq var_frame_set_extract_assert_right)
-  also have "\<dots> = (rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle>) ; \<lbrace>a\<rbrace>"
+  also have "\<dots> = (rely r \<iinter> vars:\<^sub>s\<langle>p,q\<rangle>) ; \<lbrace>q'\<rbrace>"
     by (simp add: rely_conj_var_frame_set)
-  also have "\<dots> = rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  also have "\<dots> = rely r \<iinter> (vars:\<^sub>s\<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
     by (simp add: rely_conj_seq rely_assert)
   finally show ?thesis .
 qed
@@ -534,16 +534,16 @@ qed
 
 (* Original lines 554-567. *)
 lemma atomic_spec_stable_conditions:
-  assumes q_establishes_a: "(a \<inter> p) \<triangleleft> q \<subseteq> UNIV \<triangleright> a"
-  assumes stable_a: "stable a r"
-  shows "rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>p,q\<rangle> ; \<lbrace>a\<rbrace>)"
+  assumes q_establishes_q': "(q' \<inter> p) \<triangleleft> q \<subseteq> UNIV \<triangleright> q'"
+  assumes stable_q': "stable q' r"
+  shows "rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
 proof-
-  have a:"rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>a \<inter> p,q\<rangle>)"
-    by (meson assert_atomic_spec_into_pre stable_a)
-  also have "\<dots> = rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>a \<inter> p,(a \<inter> p)\<triangleleft>q\<rangle>)"
+  have q':"rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>p,q\<rangle>) = rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>q' \<inter> p,q\<rangle>)"
+    by (meson assert_atomic_spec_into_pre stable_q')
+  also have "\<dots> = rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>q' \<inter> p,(q' \<inter> p)\<triangleleft>q\<rangle>)"
     using atomic_spec_pre_internalise by auto
-  also have "\<dots> = rely r \<iinter> (\<lbrace>a\<rbrace> ; \<langle>a \<inter> p,q\<rangle> ; \<lbrace>a\<rbrace>)"
-    using atomic_spec_extract_post_assert atomic_spec_pre_internalise q_establishes_a seq_conj.assert_op_sync_right seq_par.seq_assoc stable_a by force
+  also have "\<dots> = rely r \<iinter> (\<lbrace>q'\<rbrace> ; \<langle>q' \<inter> p,q\<rangle> ; \<lbrace>q'\<rbrace>)"
+    using atomic_spec_extract_post_assert atomic_spec_pre_internalise q_establishes_q' seq_conj.assert_op_sync_right seq_par.seq_assoc stable_q' by force
   finally show ?thesis
-    using a rely_conj_seq by auto 
+    using q' rely_conj_seq by auto 
 qed

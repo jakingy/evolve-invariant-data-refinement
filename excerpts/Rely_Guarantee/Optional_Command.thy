@@ -30,29 +30,29 @@ lemma t: "\<tau> p = \<tau> p ; \<tau> p"
 
 
 (* Original lines 66-92. *)
-lemma opt_range_constrain_test: "opt (q \<triangleright> a) = opt (q \<triangleright> a) ; \<tau> a"
+lemma opt_range_constrain_test: "opt (q \<triangleright> q') = opt (q \<triangleright> q') ; \<tau> q'"
 proof-
-  have subset_a: "{\<sigma>. (\<sigma>,\<sigma>) \<in> q \<triangleright> a} \<subseteq> a"
+  have subset_q': "{\<sigma>. (\<sigma>,\<sigma>) \<in> q \<triangleright> q'} \<subseteq> q'"
   proof(rule subsetI)
     fix \<sigma>
-    assume asm: "\<sigma> \<in> {\<sigma>. (\<sigma>,\<sigma>) \<in> q \<triangleright> a}"
-    have s_in: "(\<sigma>,\<sigma>) \<in> q \<triangleright> a" using asm by auto
-    then show "\<sigma> \<in> a" by (simp add: restrict_range_def)
+    assume asm: "\<sigma> \<in> {\<sigma>. (\<sigma>,\<sigma>) \<in> q \<triangleright> q'}"
+    have s_in: "(\<sigma>,\<sigma>) \<in> q \<triangleright> q'" using asm by auto
+    then show "\<sigma> \<in> q'" by (simp add: restrict_range_def)
   qed
 
-  have test_extract_a: "\<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> a)} = \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> a)} ; \<tau> a"
+  have test_extract_q': "\<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> q')} = \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> q')} ; \<tau> q'"
   proof -
     have "\<forall>S Sa. \<not> (S::'state set) \<subseteq> Sa \<or> S = S \<inter> Sa"
       by (metis inf.orderE)
     then show ?thesis
-      using seq.image_is_test seq.test_inf seq.test_seq_test subset_a by presburger
+      using seq.image_is_test seq.test_inf seq.test_seq_test subset_q' by presburger
   qed
 
-  have p1: "opt (q \<triangleright> a) = \<pi> (q \<triangleright> a) \<squnion> \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> a)}"
+  have p1: "opt (q \<triangleright> q') = \<pi> (q \<triangleright> q') \<squnion> \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> q')}"
     using opt_def by auto
-  also have "\<dots> = (\<pi> (q \<triangleright> a) ; \<tau> a) \<squnion> (\<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> a)} ; \<tau> a)"
-    using pgm_test_post test_extract_a by auto
-  also have "\<dots> = (\<pi> (q \<triangleright> a) \<squnion> \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> a)}) ; \<tau> a"
+  also have "\<dots> = (\<pi> (q \<triangleright> q') ; \<tau> q') \<squnion> (\<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> q')} ; \<tau> q')"
+    using pgm_test_post test_extract_q' by auto
+  also have "\<dots> = (\<pi> (q \<triangleright> q') \<squnion> \<tau>{\<sigma>. (\<sigma>,\<sigma>) \<in> (q \<triangleright> q')}) ; \<tau> q'"
     by (simp add: seq_par.sup_seq)
   finally show ?thesis
     by (simp add: p1)
@@ -61,15 +61,15 @@ qed
 
 (* Original lines 94-107. *)
 lemma opt_extract_test: 
-  assumes q_establishes_a: "q \<subseteq> UNIV \<triangleright> a"
-  shows "opt q = opt q ; \<tau> a"
+  assumes q_establishes_q': "q \<subseteq> UNIV \<triangleright> q'"
+  shows "opt q = opt q ; \<tau> q'"
 proof-
-  have "q = q \<triangleright> a"
+  have "q = q \<triangleright> q'"
   proof -
     have "q \<subseteq> UNIV"
       by blast
     then show ?thesis
-      by (metis Int_absorb1 q_establishes_a range_restrict_inter)
+      by (metis Int_absorb1 q_establishes_q' range_restrict_inter)
   qed
   then show ?thesis
     by (metis opt_range_constrain_test)
@@ -78,12 +78,12 @@ qed
 
 (* Original lines 109-118. *)
 lemma opt_extract_assert: 
-  assumes q_establishes_a: "q \<subseteq> UNIV \<triangleright> a"
-  shows "opt q = opt q ; \<lbrace>a\<rbrace>"
+  assumes q_establishes_q': "q \<subseteq> UNIV \<triangleright> q'"
+  shows "opt q = opt q ; \<lbrace>q'\<rbrace>"
 proof-
-  have a1: "opt q = opt q ; \<tau> a"
-    by (simp add: opt_extract_test q_establishes_a)
-  also have "\<dots> = opt q ; \<tau> a ; \<lbrace>a\<rbrace>"
+  have a1: "opt q = opt q ; \<tau> q'"
+    by (simp add: opt_extract_test q_establishes_q')
+  also have "\<dots> = opt q ; \<tau> q' ; \<lbrace>q'\<rbrace>"
     by (simp add: seq.test_op_assert seq_par.seq_assoc)
   then show ?thesis using a1 by simp
 qed

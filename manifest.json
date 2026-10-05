@@ -1,7 +1,7 @@
 {
   "source_repository": "dv4cs",
-  "source_revision": "999dd670fbc84845f2f408abd32825a8610add81",
-  "snapshot_date": "2026-09-30",
+  "source_revision": "e0ce56461dcce28073e178b87fd5120e0c95ce14",
+  "snapshot_date": "2026-10-05",
   "files": [
     {
       "path": "Atomic/Distributive_Laws.thy",
@@ -31,13 +31,13 @@
       "path": "Commands/Bind.thy",
       "export": "theories/Commands/Bind.thy",
       "mode": "complete theory",
-      "declarations": 14
+      "declarations": 13
     },
     {
       "path": "Commands/Data_Refinement.thy",
       "export": "excerpts/Commands/Data_Refinement.thy",
       "mode": "selected source excerpts",
-      "declarations": 45
+      "declarations": 58
     },
     {
       "path": "Commands/Expressions.thy",
@@ -80,6 +80,12 @@
       "export": "theories/Examples/Remove.thy",
       "mode": "complete theory",
       "declarations": 12
+    },
+    {
+      "path": "Examples/Remove_Array.thy",
+      "export": "theories/Examples/Remove_Array.thy",
+      "mode": "complete theory",
+      "declarations": 34
     },
     {
       "path": "Examples/Typed_State.thy",
@@ -131,8 +137,8 @@
     },
     {
       "path": "Rely_Guarantee/Invariant.thy",
-      "export": "excerpts/Rely_Guarantee/Invariant.thy",
-      "mode": "selected source excerpts",
+      "export": "theories/Rely_Guarantee/Invariant.thy",
+      "mode": "complete theory",
       "declarations": 60
     },
     {
@@ -171,73 +177,73 @@
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 5,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 579
+      "source_line": 582
     },
     "isa:Atomic-Distributive-Laws-atom-iter-sync-iter-non-test": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 50,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 622
+      "source_line": 625
     },
     "isa:Atomic-Distributive-Laws-sync-neut-is-assert-test": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 69,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 639
+      "source_line": 642
     },
     "isa:Atomic-Distributive-Laws-sync-neut-idem": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 92,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 660
+      "source_line": 663
     },
     "isa:Atomic-Distributive-Laws-sync-neut-iter": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 110,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 676
+      "source_line": 679
     },
     "isa:Atomic-Distributive-Laws-sync-neut-iter-is-assert": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 141,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 705
+      "source_line": 708
     },
     "isa:Atomic-Distributive-Laws-magic-sync-neut": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 166,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 728
+      "source_line": 731
     },
     "isa:Atomic-Distributive-Laws-atom-iter-sync-assert": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 172,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 732
+      "source_line": 735
     },
     "isa:Atomic-Distributive-Laws-atom-iter-sync-neut-right": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 188,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 746
+      "source_line": 749
     },
     "isa:Atomic-Distributive-Laws-split-immed-behaviour": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 203,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 759
+      "source_line": 762
     },
     "isa:Atomic-Distributive-Laws-atom-iter-sync-iter": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 209,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 763
+      "source_line": 766
     },
     "isa:Atomic-Distributive-Laws-atom-iter-sync-infinite-iter": {
       "path": "excerpts/Atomic/Distributive_Laws.thy",
       "line": 317,
       "source_path": "isabelle/new_rg_algebra/Atomic/Distributive_Laws.thy",
-      "source_line": 869
+      "source_line": 872
     },
     "isa:Biquantale-Biquantale-Assert-assert-stable-assert": {
       "path": "excerpts/Biquantale/Biquantale_Assert.thy",
@@ -307,87 +313,81 @@
     },
     "isa:Commands-Bind-bind-command": {
       "path": "theories/Commands/Bind.thy",
-      "line": 13,
+      "line": 12,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 13
-    },
-    "isa:Commands-Bind-bindlv-command": {
-      "path": "theories/Commands/Bind.thy",
-      "line": 21,
-      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 21
+      "source_line": 12
     },
     "isa:Commands-Bind-idle-ref-bind": {
       "path": "theories/Commands/Bind.thy",
-      "line": 28,
+      "line": 19,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 28
+      "source_line": 19
     },
     "isa:Commands-Bind-bind-ref-idle": {
       "path": "theories/Commands/Bind.thy",
-      "line": 43,
+      "line": 34,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 43
+      "source_line": 34
     },
     "isa:Commands-Bind-bind-idle": {
       "path": "theories/Commands/Bind.thy",
-      "line": 55,
+      "line": 46,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 55
+      "source_line": 46
     },
     "isa:Commands-Bind-bind-rely-alt": {
+      "path": "theories/Commands/Bind.thy",
+      "line": 53,
+      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
+      "source_line": 53
+    },
+    "isa:Commands-Bind-bind-rely-alt-2": {
+      "path": "theories/Commands/Bind.thy",
+      "line": 57,
+      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
+      "source_line": 57
+    },
+    "isa:Commands-Bind-bind-rely-alt-3": {
       "path": "theories/Commands/Bind.thy",
       "line": 61,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
       "source_line": 61
     },
-    "isa:Commands-Bind-bind-rely-alt-2": {
-      "path": "theories/Commands/Bind.thy",
-      "line": 64,
-      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 64
-    },
-    "isa:Commands-Bind-bind-rely-alt-3": {
-      "path": "theories/Commands/Bind.thy",
-      "line": 67,
-      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 67
-    },
     "isa:Commands-Bind-bind-var-is-expr-eval": {
       "path": "theories/Commands/Bind.thy",
-      "line": 72,
+      "line": 66,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 72
+      "source_line": 66
     },
     "isa:Commands-Bind-rely-into-bind": {
       "path": "theories/Commands/Bind.thy",
-      "line": 88,
+      "line": 82,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 88
+      "source_line": 82
     },
     "isa:Commands-Bind-bind-guar-alt": {
+      "path": "theories/Commands/Bind.thy",
+      "line": 86,
+      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
+      "source_line": 86
+    },
+    "isa:Commands-Bind-guar-into-bind": {
       "path": "theories/Commands/Bind.thy",
       "line": 91,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
       "source_line": 91
     },
-    "isa:Commands-Bind-guar-into-bind": {
-      "path": "theories/Commands/Bind.thy",
-      "line": 97,
-      "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 97
-    },
     "isa:Commands-Bind-bind-ref-mono": {
       "path": "theories/Commands/Bind.thy",
-      "line": 102,
+      "line": 98,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 102
+      "source_line": 98
     },
     "isa:Commands-Bind-bind-ref-mono-prime": {
       "path": "theories/Commands/Bind.thy",
-      "line": 108,
+      "line": 106,
       "source_path": "isabelle/new_rg_algebra/Commands/Bind.thy",
-      "source_line": 108
+      "source_line": 106
     },
     "isa:Commands-Data-Refinement-data-refine": {
       "path": "excerpts/Commands/Data_Refinement.thy",
@@ -395,269 +395,347 @@
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 12
     },
+    "isa:Commands-Data-Refinement-data-refine-refl": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 11,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 15
+    },
+    "isa:Commands-Data-Refinement-data-refine-trans": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 16,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 18
+    },
+    "isa:Commands-Data-Refinement-refsto-implies-data-refine": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 24,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 26
+    },
     "isa:Commands-Data-Refinement-data-refine-atomic-spec-extract-post-assert-under-invariant": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 12,
+      "line": 32,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 32
     },
     "isa:Commands-Data-Refinement-data-refine-framed-atomic-spec-extract-post-assert-under-invariant": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 22,
+      "line": 42,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 40
     },
+    "isa:Commands-Data-Refinement-data-refine-Sup": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 53,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 49
+    },
+    "isa:Commands-Data-Refinement-data-refine-SUP": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 70,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 64
+    },
+    "isa:Commands-Data-Refinement-data-refine-sup": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 83,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 75
+    },
+    "isa:Commands-Data-Refinement-data-refine-seq": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 91,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 81
+    },
+    "isa:Commands-Data-Refinement-data-refine-conj": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 105,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 93
+    },
     "isa:Commands-Data-Refinement-data-refine-add-conj": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 32,
+      "line": 119,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 105
     },
+    "isa:Commands-Data-Refinement-data-refine-par": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 126,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 110
+    },
+    "isa:Commands-Data-Refinement-data-refine-power": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 140,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 122
+    },
+    "isa:Commands-Data-Refinement-data-refine-fiter": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 148,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 128
+    },
     "isa:Commands-Data-Refinement-data-refine-iter": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 39,
+      "line": 156,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 134
     },
     "isa:Commands-Data-Refinement-data-refine-infiter": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 60,
+      "line": 177,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 153
     },
     "isa:Commands-Data-Refinement-data-refine-test": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 70,
+      "line": 187,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 161
     },
     "isa:Commands-Data-Refinement-data-refine-assert": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 83,
+      "line": 200,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 172
     },
     "isa:Commands-Data-Refinement-data-refine-pgm": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 98,
+      "line": 215,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 185
     },
     "isa:Commands-Data-Refinement-data-refine-env": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 111,
+      "line": 228,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 196
     },
     "isa:Commands-Data-Refinement-restrict-range-domain": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 123,
+      "line": 240,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 206
     },
     "isa:Commands-Data-Refinement-data-refine-env-assump": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 128,
+      "line": 245,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 209
     },
     "isa:Commands-Data-Refinement-data-refine-guar": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 163,
+      "line": 280,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 241
     },
     "isa:Commands-Data-Refinement-data-refine-rely": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 188,
+      "line": 305,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 263
     },
     "isa:Commands-Data-Refinement-data-refine-opt": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 220,
+      "line": 337,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 293
     },
     "isa:Commands-Data-Refinement-data-refine-frame-mono": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 233,
+      "line": 350,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 304
     },
     "isa:Commands-Data-Refinement-data-refine-frame": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 240,
+      "line": 357,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 309
     },
     "isa:Commands-Data-Refinement-bind-inv-alt": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 270,
+      "line": 387,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 338
     },
     "isa:Commands-Data-Refinement-bind-inv-alt2": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 275,
+      "line": 392,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 341
     },
     "isa:Commands-Data-Refinement-bind-inv": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 280,
+      "line": 397,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 344
     },
     "isa:Commands-Data-Refinement-data-refine-bind": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 285,
+      "line": 402,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 347
     },
     "isa:Commands-Data-Refinement-data-refine-bind-mono-prime": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 293,
+      "line": 410,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 353
     },
     "isa:Commands-Data-Refinement-data-refine-framed-terminate-atomic": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 303,
+      "line": 427,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 361
+      "source_line": 368
     },
     "isa:Commands-Data-Refinement-data-refine-local-atomic-extract-framed-spec-left": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 309,
+      "line": 433,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 365
+      "source_line": 372
     },
     "isa:Commands-Data-Refinement-refine-local-atomic-from-atomic": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 316,
+      "line": 440,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 370
+      "source_line": 377
     },
     "isa:Commands-Data-Refinement-chain-data-refine-atomic-spec-to-assign-op": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 334,
+      "line": 458,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 386
+      "source_line": 393
     },
     "isa:Commands-Data-Refinement-chain-data-refine-framed-atomic-spec-to-assign-op": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 406,
+      "line": 530,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 456
+      "source_line": 463
     },
     "isa:Commands-Data-Refinement-chain-data-refine-framed-atomic-spec-to-open-assign": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 433,
+      "line": 557,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 481
+      "source_line": 488
     },
     "isa:Commands-Data-Refinement-chain-data-refine-framed-atomic-spec-to-open-assign-no-pre": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 447,
+      "line": 571,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 493
+      "source_line": 500
     },
     "isa:Commands-Data-Refinement-chain-data-refine-framed-atomic-spec-to-open-assign-no-post": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 466,
+      "line": 590,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 510
+      "source_line": 517
     },
     "isa:Commands-Data-Refinement-data-refine-intro-local-atomic-open-assign-left": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 488,
+      "line": 612,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 530
+      "source_line": 537
     },
     "isa:Commands-Data-Refinement-data-refine-intro-local-atomic-open-assign-left-no-pre": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 524,
+      "line": 648,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 564
+      "source_line": 571
     },
     "isa:Commands-Data-Refinement-data-refine-constant": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 548,
+      "line": 672,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 586
+      "source_line": 593
+    },
+    "isa:Commands-Data-Refinement-data-refine-unary": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 682,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 600
     },
     "isa:Commands-Data-Refinement-data-refine-binary": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 558,
+      "line": 699,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 608
+      "source_line": 615
     },
     "isa:Commands-Data-Refinement-data-refine-while": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 577,
+      "line": 718,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 625
+      "source_line": 632
     },
     "isa:Commands-Data-Refinement-data-refine-while-alt": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 601,
-      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 647
-    },
-    "isa:Commands-Data-Refinement-data-refine-conditional": {
-      "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 610,
+      "line": 742,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
       "source_line": 654
     },
+    "isa:Commands-Data-Refinement-data-refine-conditional": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 751,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 661
+    },
+    "isa:Commands-Data-Refinement-data-refine-gfp": {
+      "path": "excerpts/Commands/Data_Refinement.thy",
+      "line": 778,
+      "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
+      "source_line": 686
+    },
     "isa:Commands-Data-Refinement-data-refine-atomic-spec": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 637,
+      "line": 793,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 692
+      "source_line": 699
     },
     "isa:Commands-Data-Refinement-data-refine-local-atomic-spec": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 697,
+      "line": 853,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 750
+      "source_line": 757
     },
     "isa:Commands-Data-Refinement-data-refine-spec": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 712,
+      "line": 868,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 763
+      "source_line": 770
     },
     "isa:Commands-Data-Refinement-var-deref-eval-inner-alternate": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 750,
+      "line": 906,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 799
+      "source_line": 806
     },
     "isa:Commands-Data-Refinement-var-deref-eval-alternate": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 758,
+      "line": 914,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 805
+      "source_line": 812
     },
     "isa:Commands-Data-Refinement-restrict-test-in-variable-refine": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 795,
+      "line": 951,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 840
+      "source_line": 847
     },
     "isa:Commands-Data-Refinement-data-refine-variable": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 802,
+      "line": 958,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 845
+      "source_line": 852
     },
     "isa:Commands-Data-Refinement-data-refine-assignment": {
       "path": "excerpts/Commands/Data_Refinement.thy",
-      "line": 824,
+      "line": 980,
       "source_path": "isabelle/new_rg_algebra/Commands/Data_Refinement.thy",
-      "source_line": 865
+      "source_line": 872
     },
     "isa:Commands-Expressions-lval-eq-all": {
       "path": "excerpts/Commands/Expressions.thy",
@@ -1697,6 +1775,210 @@
       "source_path": "isabelle/new_rg_algebra/Examples/Remove.thy",
       "source_line": 68
     },
+    "isa:Examples-Remove-Array-extract-set-from-word": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 11,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 11
+    },
+    "isa:Examples-Remove-Array-word-bit": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 17,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 17
+    },
+    "isa:Examples-Remove-Array-word-unset-bit": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 20,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 20
+    },
+    "isa:Examples-Remove-Array-set-difference": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 23,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 23
+    },
+    "isa:Examples-Remove-Array-set-member": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 26,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 26
+    },
+    "isa:Examples-Remove-Array-retr": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 36,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 36
+    },
+    "isa:Examples-Remove-Array-arr-at-lve": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 41,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 41
+    },
+    "isa:Examples-Remove-Array-arr-at": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 46,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 46
+    },
+    "isa:Examples-Remove-Array-arr-at-lval": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 49,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 49
+    },
+    "isa:Examples-Remove-Array-I": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 56,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 56
+    },
+    "isa:Examples-Remove-Array-word-bit-bound": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 64,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 64
+    },
+    "isa:Examples-Remove-Array-retr-member": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 68,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 68
+    },
+    "isa:Examples-Remove-Array-retr-unset-bit": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 82,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 82
+    },
+    "isa:Examples-Remove-Array-retr-word-eq": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 87,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 87
+    },
+    "isa:Examples-Remove-Array-I-word-determined": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 104,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 104
+    },
+    "isa:Examples-Remove-Array-I-member": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 109,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 109
+    },
+    "isa:Examples-Remove-Array-array-frame-unchanged": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 115,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 115
+    },
+    "isa:Examples-Remove-Array-I-array-update": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 120,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 120
+    },
+    "isa:Examples-Remove-Array-I-array-unchanged": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 137,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 137
+    },
+    "isa:Examples-Remove-Array-cas-rel": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 155,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 155
+    },
+    "isa:Examples-Remove-Array-cas-body": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 158,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 158
+    },
+    "isa:Examples-Remove-Array-opt-UNION": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 162,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 162
+    },
+    "isa:Examples-Remove-Array-opt-union": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 173,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 173
+    },
+    "isa:Examples-Remove-Array-cas-body-idle": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 183,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 183
+    },
+    "isa:Examples-Remove-Array-cas-body-atomic": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 188,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 188
+    },
+    "isa:Examples-Remove-Array-cas-body-data-refine": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 214,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 214
+    },
+    "isa:Examples-Remove-Array-arr-at-eval": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 303,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 303
+    },
+    "isa:Examples-Remove-Array-s-eval": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 322,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 322
+    },
+    "isa:Examples-Remove-Array-bind-constant": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 326,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 326
+    },
+    "isa:Examples-Remove-Array-bind-cas-body": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 331,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 331
+    },
+    "isa:Examples-Remove-Array-binary-read-constant-choice": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 349,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 349
+    },
+    "isa:Examples-Remove-Array-binary-read-constant": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 394,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 394
+    },
+    "isa:Examples-Remove-Array-binary-read-data-refine": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 411,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 411
+    },
+    "isa:Examples-Remove-Array-refine-remove-from-set-to-word-array": {
+      "path": "theories/Examples/Remove_Array.thy",
+      "line": 433,
+      "source_path": "isabelle/new_rg_algebra/Examples/Remove_Array.thy",
+      "source_line": 433
+    },
     "isa:Examples-Typed-State-typed-value": {
       "path": "theories/Examples/Typed_State.thy",
       "line": 14,
@@ -1809,7 +2091,7 @@
       "path": "excerpts/Quantale/Quantale.thy",
       "line": 6,
       "source_path": "isabelle/new_rg_algebra/Quantale/Quantale.thy",
-      "source_line": 211
+      "source_line": 214
     },
     "isa:Quantale-Quantale-Assert-assert-op-test-idem": {
       "path": "excerpts/Quantale/Quantale_Assert.thy",
@@ -1827,19 +2109,19 @@
       "path": "excerpts/Quantale/Quantale_Test.thy",
       "line": 5,
       "source_path": "isabelle/new_rg_algebra/Quantale/Quantale_Test.thy",
-      "source_line": 204
+      "source_line": 188
     },
     "isa:Quantale-Quantale-Test-test-case-eq": {
       "path": "excerpts/Quantale/Quantale_Test.thy",
       "line": 14,
       "source_path": "isabelle/new_rg_algebra/Quantale/Quantale_Test.thy",
-      "source_line": 211
+      "source_line": 195
     },
     "isa:Quantale-Quantale-Test-test-case-eq-alt": {
       "path": "excerpts/Quantale/Quantale_Test.thy",
       "line": 23,
       "source_path": "isabelle/new_rg_algebra/Quantale/Quantale_Test.thy",
-      "source_line": 218
+      "source_line": 202
     },
     "isa:Rely-Guarantee-Atomic-Specification-atomic-spec-pre-internalise": {
       "path": "excerpts/Rely_Guarantee/Atomic_Specification.thy",
@@ -2298,362 +2580,362 @@
       "source_line": 326
     },
     "isa:Rely-Guarantee-Invariant-inv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 5,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 11,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 11
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-assert": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 11,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 15,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 15
     },
     "isa:Rely-Guarantee-Invariant-inv-conj-extract-assert": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 25,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 27,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 27
     },
     "isa:Rely-Guarantee-Invariant-inv-univ": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
+      "path": "theories/Rely_Guarantee/Invariant.thy",
       "line": 36,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 36
     },
     "isa:Rely-Guarantee-Invariant-inv-test": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 50,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 48,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 48
     },
     "isa:Rely-Guarantee-Invariant-inv-test-alt": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 63,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 59,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 59
     },
     "isa:Rely-Guarantee-Invariant-inv-conj-nil": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 71,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 65,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 65
     },
     "isa:Rely-Guarantee-Invariant-inv-pre": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 77,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 69,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 69
     },
     "isa:Rely-Guarantee-Invariant-inv-alt-def2": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 95,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 85,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 85
     },
     "isa:Rely-Guarantee-Invariant-inv-alt-def3": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 105,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 93,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 93
     },
     "isa:Rely-Guarantee-Invariant-inv-weak-atomic": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 115,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 102,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 102
     },
     "isa:Rely-Guarantee-Invariant-inv-atomic-iter-def": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 121,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 106,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 106
     },
     "isa:Rely-Guarantee-Invariant-inv-establish": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 141,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 125,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 125
     },
     "isa:Rely-Guarantee-Invariant-inv-establish-test": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 158,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 140,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 140
     },
     "isa:Rely-Guarantee-Invariant-inv-stable": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 164,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 144,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 144
     },
     "isa:Rely-Guarantee-Invariant-inv-conj-stable": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 170,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 148,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 148
     },
     "isa:Rely-Guarantee-Invariant-inv-conj-right-assert": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 176,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 152,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 152
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-Sup": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 191,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 165,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 165
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-seq": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 197,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 169,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 169
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-par": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 214,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 184,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 184
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-power": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 229,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 197,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 197
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-fiter": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 234,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 200,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 200
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-iter": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 239,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 203,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 203
     },
     "isa:Rely-Guarantee-Invariant-inv-distrib-infiter": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 259,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 221,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 221
     },
     "isa:Rely-Guarantee-Invariant-inv-assert": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 266,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 226,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 226
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-rely": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 279,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 237,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 237
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-rely3": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 284,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 240,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 240
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-rely2": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 290,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 244,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 244
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-refl": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 307,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 259,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 259
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-stable": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 324,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 274,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 274
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-rely-assert": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 331,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 279,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 279
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-rely-assert3": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 336,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 282,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 282
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-context": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 342,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 286,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 286
     },
     "isa:Rely-Guarantee-Invariant-inv-extract-context-triple": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 387,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 329,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 329
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-restrict": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 397,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 337,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 337
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-restrict-cong": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 417,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 355,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 355
     },
     "isa:Rely-Guarantee-Invariant-inv-introduce-eq": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 433,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 369,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 369
     },
     "isa:Rely-Guarantee-Invariant-inv-introduce": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 467,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 401,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 401
     },
     "isa:Rely-Guarantee-Invariant-inv-introduce-alt": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 481,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 413,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 413
     },
     "isa:Rely-Guarantee-Invariant-inv-introduce-from-pre": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 495,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 425,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 425
     },
     "isa:Rely-Guarantee-Invariant-inv-inv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 507,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 435,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 435
     },
     "isa:Rely-Guarantee-Invariant-inv-strengthen": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 531,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 457,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 457
     },
     "isa:Rely-Guarantee-Invariant-inv-strengthen-alt": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 592,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 516,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 516
     },
     "isa:Rely-Guarantee-Invariant-inv-pgm": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 604,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 526,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 526
     },
     "isa:Rely-Guarantee-Invariant-inv-pgm-alt": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 617,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 537,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 537
     },
     "isa:Rely-Guarantee-Invariant-inv-env": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 633,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 551,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 551
     },
     "isa:Rely-Guarantee-Invariant-inv-env-alt": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 661,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 577,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 577
     },
     "isa:Rely-Guarantee-Invariant-inv-test-rel": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 666,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 580,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 580
     },
     "isa:Rely-Guarantee-Invariant-inv-opt-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 687,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 599,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 599
     },
     "isa:Rely-Guarantee-Invariant-inv-atomic-spec-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 703,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 619,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 619
     },
     "isa:Rely-Guarantee-Invariant-inv-atomic-pre": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 720,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 634,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 634
     },
     "isa:Rely-Guarantee-Invariant-inv-atomic-post": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 730,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 642,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 642
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-atomic-spec-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 735,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 645,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 645
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-atomic-spec-seq-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 740,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 648,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 648
     },
     "isa:Rely-Guarantee-Invariant-inv-rely-assert-atomic-spec-into-pre": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 747,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 653,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 653
     },
     "isa:Rely-Guarantee-Invariant-atomic-spec-extract-post-assert-under-invariant": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 757,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 661,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 661
     },
     "isa:Rely-Guarantee-Invariant-atomic-spec-extract-post-assert-under-inv-rely-guar-ctx": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 786,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 688,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 688
     },
     "isa:Rely-Guarantee-Invariant-framed-atomic-spec-extract-post-assert-under-invariant": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 823,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 723,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 723
     },
     "isa:Rely-Guarantee-Invariant-inv-spec-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 853,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 751,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 751
     },
     "isa:Rely-Guarantee-Invariant-inv-full-spec-equiv": {
-      "path": "excerpts/Rely_Guarantee/Invariant.thy",
-      "line": 870,
+      "path": "theories/Rely_Guarantee/Invariant.thy",
+      "line": 766,
       "source_path": "isabelle/new_rg_algebra/Rely_Guarantee/Invariant.thy",
       "source_line": 766
     },
