@@ -30,6 +30,7 @@ to identify that source snapshot when the default branch is updated.
 | `Commands/Data_Refinement.thy` | [selected source excerpts](excerpts/Commands/Data_Refinement.thy) | 58 |
 | `Commands/Expressions.thy` | [selected source excerpts](excerpts/Commands/Expressions.thy) | 8 |
 | `Commands/Expressions_Mref.thy` | [selected source excerpts](excerpts/Commands/Expressions_Mref.thy) | 21 |
+| `Commands/Open_Assignments.thy` | [complete theory](theories/Commands/Open_Assignments.thy) | 9 |
 | `DEAD/Bind.thy` | [complete theory](theories/DEAD/Bind.thy) | 66 |
 | `DEAD/GhostAssignments.thy` | [complete theory](theories/DEAD/GhostAssignments.thy) | 6 |
 | `Examples/Circular_Buffer.thy` | [complete theory](theories/Examples/Circular_Buffer.thy) | 49 |

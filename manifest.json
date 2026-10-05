@@ -52,6 +52,12 @@
       "declarations": 21
     },
     {
+      "path": "Commands/Open_Assignments.thy",
+      "export": "theories/Commands/Open_Assignments.thy",
+      "mode": "complete theory",
+      "declarations": 9
+    },
+    {
       "path": "DEAD/Bind.thy",
       "export": "theories/DEAD/Bind.thy",
       "mode": "complete theory",
@@ -910,6 +916,60 @@
       "line": 585,
       "source_path": "isabelle/new_rg_algebra/Commands/Expressions_Mref.thy",
       "source_line": 754
+    },
+    "isa:Commands-Open-Assignments-open-update": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 13,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 13
+    },
+    "isa:Commands-Open-Assignments-open-update-nochange": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 19,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 19
+    },
+    "isa:Commands-Open-Assignments-lval-not-lv-or-abstract-implies-open-update-id": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 22,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 22
+    },
+    "isa:Commands-Open-Assignments-open-update-unchanged-lvals": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 29,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 29
+    },
+    "isa:Commands-Open-Assignments-open-update-in-frame": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 34,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 34
+    },
+    "isa:Commands-Open-Assignments-open-update-eq": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 40,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 40
+    },
+    "isa:Commands-Open-Assignments-open-update-lv-eq": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 43,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 43
+    },
+    "isa:Commands-Open-Assignments-open-update-case-no-abstract-change": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 48,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 48
+    },
+    "isa:Commands-Open-Assignments-open-assign": {
+      "path": "theories/Commands/Open_Assignments.thy",
+      "line": 75,
+      "source_path": "isabelle/new_rg_algebra/Commands/Open_Assignments.thy",
+      "source_line": 75
     },
     "isa:DEAD-Bind-bind-command": {
       "path": "theories/DEAD/Bind.thy",
